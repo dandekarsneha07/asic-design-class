@@ -91,9 +91,75 @@ Observation : With the -Ofast optimizer, the main block takes total 11 instructi
 </details>
 
 <details>
-  <summary> Assignment-2 </summary>
+<summary> Assignment-2 </summary>
 
-  ## Write C program and compile it with GCC and RISC-V compiler and compare the outputs
+## Executing and Debugging the C program with Spike Simulator
+
+#### Step 1: Compile the C program with the RISC-V compiler with -Ofast optimizor
+->Command to compile:
+```ruby
+riscv64-unknown-elf-gcc -Ofast -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
+```
+
+#### Step 2: Executing the compiled file with Spike Simulator
+->Command for execution:
+```ruby
+spike pk sum1ton.o
+```
+
+Following is the expected output
+
+![image](https://github.com/user-attachments/assets/5599e7e3-6bf2-4888-a2c6-13dd8acad86a)
+
+#### Step 3: Debugging using Spike Simulator
+->Command to open debugger:
+```ruby
+spike -d pk sumton.o 
+```
+
+We will step by step execute the instructions know what changes occur in the register values after each set of instructions run.
+For that one can open the dump of the object file simultaneously.
+
+->To run the first instruction
+```ruby
+until pc 0 100b0 
+```
+
+The above command will run the program till the instruction having adderess 100b0. To experiment one can take any differnt adderess and check the corrosponding reg value and observe the changes.
+
+Screenshot of executing the above command
+
+![image](https://github.com/user-attachments/assets/1887e545-b98c-4fe3-9820-220198b35d7a)
+
+->To check the contents of reg
+```ruby
+reg 0 <reg_name>
+```
+
+For eg.
+```ruby
+reg 0 a0  #view contents of a0 register
+reg 0 sp  #view contents of stack pointer
+```
+
+To execute next set of instructions press "enter"
+
+![image](https://github.com/user-attachments/assets/4c9fa5a9-c16e-4b3c-9049-04fa5cae9851)
+
+
+
+<details>
+<summary> Assignment-3 </summary>
+
+ 
+</details>
+
+
+
+
+
+
+
   
 </details>
 
