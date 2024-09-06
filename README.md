@@ -477,7 +477,7 @@ The output from both the compilers is same which is expected.
 <details>
 <summary> Assignment-5 </summary>
 
-## Writing C program, compiling it with GCC and RISC-V compiler and compairing the output
+
  
 </details>
 
