@@ -1191,3 +1191,123 @@ Output
 
 </details>
 
+<details>
+
+ <summary> Assignment-6 </summary>
+
+## Converting the RISC-V tlv code to verilog code
+
+For converting the tlv code to verilog code we are using the sandpiper-saas compiler. Installation steps for the same are as below.
+
+#### Step-1 Installing python and related packages
+```ruby
+sudo apt install make python python3 python3-pip
+sudo apt-get install python3-venv
+```
+
+#### Step-2
+```ruby
+python3 -m venv .venv
+```
+
+#### Step-3
+```ruby
+pip3 install pyyaml click sandpiper-saas
+```
+
+#### Step-4 Installing git iverilog gtkwave
+```ruby
+sudo apt install git iverilog gtkwave
+```
+
+### Converting the tlv to verilog
+
+#### Step-1 Reference flow 
+```ruby
+git clone https://github.com/manili/VSDBabySoC.git
+```
+#### Step-2
+Replacing the rvmyth.tlv with desired RISC-V tlv.
+
+#### Step-3 Converting to verilog
+cd VSDBabySoC
+sandpiper-saas -i ./src/module/rvmyth.tlv -o rvmyth.v --bestsv --noline -p verilog --outdir ./
+
+#### Step-4 Running verilog code
+
+```ruby
+make pre_synth_sim
+gtkwave output/pre_synth_sim/pre_synth_sim.vcd
+```
+
+![image](https://github.com/user-attachments/assets/f5bec692-5e47-47d2-a4e2-58dd6e928574)
+
+
+Output:
+![image](https://github.com/user-attachments/assets/165bc05d-2df6-4414-b198-906684351dd4)
+
+
+### Compare the output waveforms with the MakerChip simulation results 
+
+1. clk
+
+![image](https://github.com/user-attachments/assets/5fccd80c-f807-42c9-84be-619c4d9b351f)
+
+2. reset
+
+![image](https://github.com/user-attachments/assets/b48f8c67-1e33-496a-908c-54cb1b0b47e7)
+
+
+3. Output
+   
+![image](https://github.com/user-attachments/assets/cb1db13e-7102-44f8-9e5d-847930fd4f19)
+
+</details>
+
+<details>
+
+ <summary> Assignment-7 </summary>
+
+## Generating waveforms for PLL and DAC 
+
+### PLL
+A phase-locked loop (PLL) is an electronic circuit with a voltage or voltage-driven oscillator that constantly adjusts to match the frequency of an input signal. PLLs are used to generate, stabilize, modulate, demodulate, filter or recover a signal from a "noisy" communications channel where data has been interrupted.
+
+### DAC 
+A Digital-to-Analog Converter (DAC) is an electronic component that transforms digital signals, often in binary form, into corresponding analog signals, such as voltage or current. 
+
+### Cloning the BabySOC for simulation
+
+### Step-1 Cloning BabySoC
+```ruby
+git clone https://github.com/Subhasis-Sahu/BabySoC_Simulation.git
+```
+
+### BabySoc 
+Files structure BabySoC
+
+src/module - contains all RTL files and testbench.v used for simulating our BabySoC design.
+
+src/include - contains RTL files used in `include define in main RTL files in src/module.
+
+### Step-2
+Update the rvmyth.v according to the previous assignment steps.
+
+### Step-3
+Compiling the verilog
+```ruby
+iverilog -o ./pre_synth_sim.out -DPRE_SYNTH_SIM src/module/testbench.v -I src/include -I src/module/
+```
+
+### Step-4
+Plotting the waveforms
+```ruby
+./pre_synth_sim.out
+gtkwave pre_synth_sim.vcd
+```
+
+Output:
+
+ ![image](https://github.com/user-attachments/assets/ce9dc58c-5e6c-4c51-a975-14bd8da0602e)
+
+</details>
