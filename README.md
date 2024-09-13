@@ -1207,6 +1207,7 @@ sudo apt-get install python3-venv
 
 #### Step-2
 ```ruby
+source ~/.venv/bin/activate
 python3 -m venv .venv
 ```
 
