@@ -1231,8 +1231,11 @@ git clone https://github.com/manili/VSDBabySoC.git
 Replacing the rvmyth.tlv with desired RISC-V tlv.
 
 #### Step-3 Converting to verilog
+
+```ruby
 cd VSDBabySoC
 sandpiper-saas -i ./src/module/rvmyth.tlv -o rvmyth.v --bestsv --noline -p verilog --outdir ./
+```
 
 #### Step-4 Running verilog code
 
