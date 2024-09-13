@@ -1197,7 +1197,9 @@ Output
 
 ## Converting the RISC-V tlv code to verilog code
 
-For converting the tlv code to verilog code we are using the sandpiper-saas compiler. Installation steps for the same are as below.
+RISC-V processor was initially designed in TL-Verilog using the Makerchip IDE. Now, for this lab we need to convert the TLV to verilog code and compare the outputs of both.
+
+For converting the TLV code to verilog code we are using the sandpiper-saas compiler. Installation steps for the same are as below.
 
 #### Step-1 Installing python and related packages
 ```ruby
@@ -1272,7 +1274,9 @@ Output:
 
  <summary> Assignment-7 </summary>
 
-## Generating waveforms for PLL and DAC 
+## Simulation of BabySoC and generating waveforms for PLL and DAC 
+
+For this lab we need to use the previously generated verilog code, and simulate the BabySoC.  This process involves generating DAC (Digital-to-Analog Converter) and PLL (Phase-Locked Loop) waveforms for the RISC-V processor.
 
 ### PLL
 A phase-locked loop (PLL) is an electronic circuit with a voltage or voltage-driven oscillator that constantly adjusts to match the frequency of an input signal. PLLs are used to generate, stabilize, modulate, demodulate, filter or recover a signal from a "noisy" communications channel where data has been interrupted.
