@@ -1315,3 +1315,17 @@ Output:
  ![image](https://github.com/user-attachments/assets/ce9dc58c-5e6c-4c51-a975-14bd8da0602e)
 
 </details>
+
+<details>
+
+<summary> References </summary>
+
+https://makerchip.com/sandbox
+
+https://github.com/Subhasis-Sahu/BabySoC_Simulation.git
+
+https://github.com/stevehoover
+
+https://github.com/manili/VSDBabySoC.git
+
+</details>
