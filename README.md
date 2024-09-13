@@ -1241,7 +1241,7 @@ make pre_synth_sim
 gtkwave output/pre_synth_sim/pre_synth_sim.vcd
 ```
 
-![image](https://github.com/user-attachments/assets/f5bec692-5e47-47d2-a4e2-58dd6e928574)
+![image](https://github.com/user-attachments/assets/2ad69a3c-5eac-4f00-bcab-fcda7e6aaa27)
 
 
 Output:
