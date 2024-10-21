@@ -2409,7 +2409,7 @@ Blocking statements execute the statemetns in the order they are written inside 
 </details>
 
 <details>
-<summary> GLS, Synthesis-Simulation mismatch and Blocking/Non-Blocking statements </summary>
+<summary> Labs on GLS and Synthesis-Simulation mismatch </summary>
 
 ## 4.2 Labs on GLS and Synthesis-Simulation mismatch
 
@@ -2430,7 +2430,105 @@ endmodule
 
 ![image](https://github.com/user-attachments/assets/0139a637-85b5-458c-8e65-29474429f165)
 
+-> Commands for netlist simulation
 
+```
+iverilog ../my_lib/verilog_module/primitives.v ../my_lib/verilog_module/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
+./a.out
+gtkwave tb_ternary_operator_mux.vcd
+```
+
+#### Netlist Simulation
+
+![image](https://github.com/user-attachments/assets/258a8b0c-ae88-4792-bf7b-63eee18e2bed)
+
+
+### Example-2
+
+```verilog
+module bad_mux (input i0 , input i1 , input sel , output reg y);
+always @ (sel)
+begin
+if(sel)
+	y <= i1;
+else 
+	y <= i0;
+end
+endmodule
+```
+
+#### Simulation Output 
+
+![image](https://github.com/user-attachments/assets/73dfdca6-801a-42e3-9c33-3dc2377dcba1)
+
+#### Commands for netlist simulation
+
+```
+iverilog ../my_lib/verilog_module/primitives.v ../my_lib/verilog_module/sky130_fd_sc_hd.v bad_mux_net.v tb_bad_mux.v
+./a.out
+gtkwave tb_bad_mux.vcd
+```
+
+#### Netlist Simulation
+
+![image](https://github.com/user-attachments/assets/0d73b47a-cfc8-4788-8462-ea48c603e4d7)
+
+The output correctly depicts the behaviour of a mux.
+
+</details>
+
+<details>
+
+<summary> Labs on synth-sim mismatch for blocking statement </summary>
+
+## 4.3 Labs on synth-sim mismatch for blocking statement
+
+```verilog
+module blocking_caveat (input a , input b , input  c, output reg d); 
+reg x;
+always @ (*)
+	begin
+	d = x & c;
+	x = a | b;
+end
+endmodule
+```
+
+#### Output Simulation
+
+![image](https://github.com/user-attachments/assets/d125531b-6297-4c19-8de3-9ef437ed4cef)
+
+-> Commands for synthesis
+
+```
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> read_verilog blocking_caveat.v 
+yosys> synth -top blocking_caveat
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> write_verilog -noattr blocking_caveat_net.v
+yosys> show
+```
+
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/d8955554-4f30-4b3f-a9f1-e78859030e95)
+
+
+-> Commands for netlist simulation
+
+```
+iverilog ../my_lib/verilog_module/primitives.v ../my_lib/verilog_module/sky130_fd_sc_hd.v blocking_caveat_net.v tb_blocking_caveat.v
+./a.out
+gtkwave tb_blocking_caveat.vcd
+```
+
+
+#### Netlist Simulation
+
+![image](https://github.com/user-attachments/assets/cf3a236c-e350-422f-b293-3ad56e6ad296)
+
+ 
 </details>
 
 </details>
