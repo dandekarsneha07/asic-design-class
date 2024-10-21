@@ -1616,6 +1616,8 @@ endmodule
 
 <summary> Introduction to yosys and logic synthesizer </summary>
 
+# 1.3 Introduction to yosys and logic synthesizer
+
 ## 1.3.1 Introduction to Yosys synthesizer
 
 #### Synthesis
