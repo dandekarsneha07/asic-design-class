@@ -1958,6 +1958,46 @@ endmodule
 
 ### 2.3.3 Optimizations
 
+This lab session explores automatic and effective optimizations of circuits based on logic principles. In the example below, multiplying a number by 2 requires no extra hardware; it only involves connecting the bits from a to y while grounding the least significant bit (LSB) of y, as demonstrated by yosys.
+
+```verilog
+module mul2 (input [2:0] a, output [3:0] y);
+	assign y = a * 2;
+endmodule
+```
+
+
+```
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> read_verilog mult_2.v 
+yosys> synth -top mul2
+yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> show
+```
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/32d5f5e4-6e75-4c41-82e4-78d9cf7404c9)
+
+##### Synthesized Netlist
+
+![image](https://github.com/user-attachments/assets/0c612572-354d-4879-99c6-5b68ff848bfc)
+
+
+```verilog
+module mult8 (input [2:0] a , output [5:0] y);
+	assign y = a * 9;
+endmodule
+```
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/3707df3e-ce66-4df2-8549-5e0dcaee5c29)
+
+##### Synthesized Netlist
+
+![image](https://github.com/user-attachments/assets/597a8d4d-763f-45f7-98b8-7026799b3bde)
 
 
 </details>
