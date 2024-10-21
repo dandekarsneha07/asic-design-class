@@ -2367,10 +2367,73 @@ endmodule
 
 <summary>Day 4</summary>
 
+# GLS, blocking vs non-blocking and synthesis-simulation
+
+<details>
+<summary> GLS, Synthesis-Simulation mismatch and Blocking/Non-Blocking statements </summary>
+
+## 4.1 GLS, Synthesis-Simulation mismatch and Blocking/Non-Blocking statements
+
+### Gate-Level Synthesis 
+
+GLS is the process of converting a high-level hardware description language (HDL) design (such as Verilog or VHDL) into a gate-level netlist that represents the circuit in terms of basic logic gates like AND, OR, NAND, NOR, flip-flops, etc. 
+
+In GLS, we run test bench with netlist as the Design under test instead of the RTL code. Basically, Netlist is logically equal to RTL code as the netlist is obtained by converting RTL code into standard cell gates.
+We will use GLS to verify the logical correctness of design after synthesis and also to ensure the timing of the design is met. (run with delay annotations.)
+
+### Why GLS?
+
+To verify the logical correctness of the design after synthesis.
+Ensuring the timing of the design is met -- For this GLS needs to run with delay annotation.
+
+### GLS using IVERILOG
+
+Below picture gives an insight of the procedure. Here while using iverilog, we also include gate level verilog models to generate GLS simulation.
+
+![image](https://github.com/user-attachments/assets/29ca7fbe-6382-4d9a-a600-f7a0113333f4)
+
+### Synthesis and Simulation Mismatch
+
+These can happen because of some reasons and few of the are:
+
+1. Missing Sensitivity List
+2. Blocking vs Non-Blocking assignments
+3. Non-standard verilog coding
+
+To avoid the synthesis and simulation mismatch. It is very important to check the behaviour of the circuit first and then match it with the expected output seen in simulation and make sure there are no synthesis and simulation mismatches. This is why we use GLS.
+
+### Blocking vs Non-Blocking Assignments
+
+Blocking statements execute the statemetns in the order they are written inside the always block. Non-Blocking statements execute all the RHS and once always block is entered, the values are assigned to LHS. This will give mismatch as sometimes, improper use of blocking statements can create latches.
+
 </details>
 
+<details>
+<summary> GLS, Synthesis-Simulation mismatch and Blocking/Non-Blocking statements </summary>
+
+## 4.2 Labs on GLS and Synthesis-Simulation mismatch
+
+### Example-1
+
+```verilog
+module ternary_operator_mux (input i0 , input i1 , input sel , output y);
+	assign y = sel?i1:i0;
+endmodule
+```
+
+#### Simulation Output 
+
+![image](https://github.com/user-attachments/assets/18ae2e25-c450-444c-a3f6-7364cf0083ea)
 
 
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/0139a637-85b5-458c-8e65-29474429f165)
+
+
+</details>
+
+</details>
 </details>
 
 <details>
