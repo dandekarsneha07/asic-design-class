@@ -2667,12 +2667,13 @@ Here second wave window shows the netlist simulation which shows the proper work
 
 <summary> References </summary>
 
-https://makerchip.com/sandbox
-
-https://github.com/Subhasis-Sahu/BabySoC_Simulation.git
-
-https://github.com/stevehoover
-
-https://github.com/manili/VSDBabySoC.git
+* https://makerchip.com/sandbox
+* https://github.com/Subhasis-Sahu/BabySoC_Simulation.git
+* https://github.com/stevehoover
+* https://github.com/YosysHQ/yosys.git
+* https://github.com/The-OpenROAD-Project/OpenSTA.git
+* https://github.com/kunalg123
+* https://www.vsdiat.com
+* https://github.com/manili/VSDBabySoC.git
 
 </details>
