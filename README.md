@@ -2051,8 +2051,7 @@ endmodule
 #### Synthesized Output
 
 
-
-![image](https://github.com/user-attachments/assets/ac39c46d-90ef-433c-8cc9-c3bdf60d3a5b)
+![image](https://github.com/user-attachments/assets/f065dc2d-061d-4f45-a549-c66796557623)
 
 
 ### Example 2
@@ -2065,7 +2064,7 @@ endmodule
 
 #### Synthesized Output
 
-![image](https://github.com/user-attachments/assets/b47b130f-28e5-45eb-a433-e269554fb1d8)
+![image](https://github.com/user-attachments/assets/b320f800-f7f0-4826-b2e4-0888b4e04bb4)
 
 
 ### Example 3
@@ -2078,7 +2077,8 @@ endmodule
 
 #### Synthesized Output
 
-![image](https://github.com/user-attachments/assets/63439b3d-c9aa-42a2-97e8-a6bc689f5750)
+![image](https://github.com/user-attachments/assets/271e4477-cb2c-4592-8d1f-13ffeecb4a34)
+
 
 
 ### Example 4
@@ -2091,7 +2091,8 @@ endmodule
 
 #### Synthesized Output
 
-![image](https://github.com/user-attachments/assets/cb5d3529-9067-4057-8a22-f991006484e8)
+![image](https://github.com/user-attachments/assets/5df9fb8a-fe64-4abf-8dcb-36c0139719c8)
+
 
 
 ### Example 5
