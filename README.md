@@ -1347,8 +1347,7 @@ RTL is a methodology that enables data transfer between registers. In RTL design
 
 ##### -> Example templet for RTL
 
-```ruby
-
+```verilog
 module <module_name> (port list);
 	//declarations;
 	//initializations;
@@ -1366,7 +1365,7 @@ Verilog enables the creation of testbenches that simulate the behavior of hardwa
 
 ##### -> Example templet for Testbench
 
-```ruby
+```verilog
 
 `timescale 1ns/1ps  // Specify the time unit and precision
 
@@ -1446,7 +1445,7 @@ gtkwave tb_good_mux.vcd
 
 -> Code
 
-```ruby
+```verilog
 module good_mux (input i0 , input i1 , input sel , output reg y);
 always @ (*)
 begin
@@ -1460,7 +1459,7 @@ endmodule
 
 -> Testbench
 
-```ruby
+```verilog
 `timescale 1ns / 1ps
 module tb_good_mux;
 // Inputs
@@ -1660,7 +1659,7 @@ For understanding Hierarchical  and flat synthesis open multiple_module.v
 
 -> Code
 
-```ruby
+```verilog
 module sub_module2 (input a, input b, output y);
 	assign y = a | b;
 endmodule
@@ -1699,7 +1698,7 @@ Hierarchical design code for the multiple_modules:
 
 -> Code
 
-``` ruby
+``` verilog
 module multiple_modules(a, b, c, y);
 	  input a;
 	 input b;
@@ -1752,7 +1751,7 @@ Flattened design code for the multiple_modules:
 
 -> Code
 
-``` ruby
+```verilog
 module multiple_modules(a, b, c, y);
 	 wire _0_;
 	 wire _1_;
@@ -1806,6 +1805,159 @@ yosys> !vim multiple_modules_flat.v
 ```
 
 ![image](https://github.com/user-attachments/assets/83d1e162-8a14-4d3b-b7d6-09922869d8a2)
+
+
+</details>
+
+<details>
+
+<summary> Various flop coding styles and optimization </summary>
+
+## 2.3 Various flop coding styles and optimization
+
+### 2.3.1 Flops and Flops coding style
+
+#### Understanding the Flip-Flop
+
+In a combinational circuit, there is always a propagation delay before the output reflects the given inputs. During this delay, intermediate outputs can appear due to different paths within the circuit, resulting in what are known as glitches. The more combinational circuits present, the more likely it is for these glitches to occur, causing the output to become unstable.
+
+To prevent these glitches, we use an element called a flip-flop (flop) to store the value. By using a flop, we ensure that the output of the combinational circuit is stored and only passed on to the next circuit at the rising or falling edge of the clock. This process stabilizes the input to the subsequent combinational circuit, thereby reducing glitches.
+
+It's important to initialize the flop; otherwise, the following combinational circuit might receive a garbage value as input. For this purpose, we use control pins like reset and set.
+
+Coadind styles for Flip Flops
+1. Asynchronous reset
+2. Synchronous reset
+3. Asynchronous set
+4. Synchronous set
+5. Both Asynchronous reset and Synchronous reset
+6. Both Asynchronous set and Synchronous set
+
+### 2.3.2 Lab for flop synthesis simulations
+
+#### D Flip-Flop with Asynchronous Reset
+
+Here, the D flip flop has asynchronous reset i.e whenever the reset is applied, say here active low ( reset = 0 ) the the output of flip flop will be reseated irrespective of the clock's active edge (poseedge or negedge)
+
+-> Code
+
+```verilog
+module dff_asyncres ( input clk ,  input async_reset , input d , output reg q );
+	always @ (posedge clk , posedge async_reset)
+	begin
+		if(async_reset)
+			q <= 1'b0;
+		else	
+			q <= d;
+	end
+endmodule
+```
+
+##### Generating the outputs
+
+```
+iverilog dff_asyncres.v tb_dff_asyncres.v
+./a.out
+gtkwave dff_asyncres.vcd
+```
+
+![image](https://github.com/user-attachments/assets/d3946f7a-6caf-46f7-8d32-1d95cdce39c4)
+
+##### Synthesis on yosys
+
+```
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> read_verilog dff_asyncres.v 
+yosys> synth -top dff_asyncres
+yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> show
+```
+
+![image](https://github.com/user-attachments/assets/7bf80416-d353-448e-ba73-b718ec5c5012)
+
+
+#### D Flip-Flop with Synchronous Reset
+
+Here, the D flip flop has synchronous, whenever the reset is applied and there is an active edge of clock the filp flop will be resseted.
+
+->Code
+
+```verilog
+module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+always @ (posedge clk )
+begin
+	if (sync_reset)
+		q <= 1'b0;
+	else	
+		q <= d;
+end
+endmodule
+```
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/007088d5-61d9-4b90-b01b-2cc11dc8e2dd)
+
+#### Synthesized Design
+
+![image](https://github.com/user-attachments/assets/d6be9ae9-b3b2-4d8c-96f9-3801737b14dd)
+
+
+#### D Flip-Flop with Asynchronous Set
+
+Here whenever the set is activated the D filp flop is set irrespective of the active clock edge.
+
+-> Code
+```verilog
+module dff_async_set ( input clk ,  input async_set , input d , output reg q );
+	always @ (posedge clk , posedge async_set)
+	begin
+		if(async_set)
+			q <= 1'b1;
+		else
+			q <= d;
+	end
+endmodule
+```
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/5ff34d90-9957-4585-a32b-53eb976024d2)
+
+##### Synthesized Circuit
+
+![image](https://github.com/user-attachments/assets/b8ed9ad6-415f-44db-be71-0d0ca7ddd8d6)
+
+
+#### D Flip-Flop with Synchronous/Asynchronous Reset
+
+-> Code
+
+```verilog
+module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+always @ (posedge clk , posedge async_reset)
+begin
+	if(async_reset)
+		q <= 1'b0;
+	else if (sync_reset)
+		q <= 1'b0;
+	else	
+		q <= d;
+end
+endmodule
+```
+##### Output
+
+![image](https://github.com/user-attachments/assets/b435442c-4f06-4e19-8b8e-b303274e5b06)
+
+##### Synthesized Design
+
+![image](https://github.com/user-attachments/assets/3af1736f-80e9-4cb3-aee2-011d541fe4a4)
+
+
+### 2.3.3 Optimizations
+
 
 
 </details>
