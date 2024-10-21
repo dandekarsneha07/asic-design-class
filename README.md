@@ -1613,15 +1613,202 @@ liberty file contains following information:
 5. Input/Output Pin Details
 6. Operating Conditions (PVT)
 
-#### -> Opening the .lib file
+#### Opening the .lib file
 
 ```
  gvim sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
 
+#### Understading the structure of .lib
+
+Significance of sky130_fd_sc_hd__tt_025C_1v80 
+
+1. sky130 - 130nm tech node PDK
+2. tt - typical process (typical nmos, typical pmos)
+3. 25C - 25 degree C temperature
+4. 1v80 - operating voltage of 1.80
+
+The following image shows the structure of a cell in .lib
+
+1. Cell name is defined, it is an AND gate with 2 inputs with min drivng strength (here notation for same is and2_0)
+2. Cell area is defined with cell footprint
+3. The leakage power in mentioned for different when confitions (input combinations)
+4. Power pins are defined with respective operating rail voltages
+
+![image](https://github.com/user-attachments/assets/cac63137-3093-4470-ba23-e54b29ec0fe7)
+
+#### Understanding different AND gates in the .lib
+
+Here in the image 2 input AND gate is highlighted with different driving strengths hence the naming convention
+
+and2_0, and2_1, and2_2
+
+As we can observe that the leakage power is increasing as the driving strength is increasing.
+
+leakage power : and2_0 < and2_1 < and2_2
+
+![image](https://github.com/user-attachments/assets/e39dd2a5-d38d-423d-96f5-ac3f13fb797b)
+
 </details>
 
+<details> 
+<summary> Hierarchical vs Flat synthesis </summary>
 
+## 2.2 Hierarchical vs Flat synthesis
+
+For understanding Hierarchical  and flat synthesis open multiple_module.v
+
+-> Code
+
+```ruby
+module sub_module2 (input a, input b, output y);
+	assign y = a | b;
+endmodule
+
+module sub_module1 (input a, input b, output y);
+	assign y = a&b;
+endmodule
+
+
+module multiple_modules (input a, input b, input c , output y);
+wire net1;
+sub_module1 u1(.a(a),.b(b),.y(net1));  //net1 = a&b
+sub_module2 u2(.a(net1),.b(c),.y(y));  //y = net1|c ,ie y = a&b + c;
+endmodule
+```
+
+![image](https://github.com/user-attachments/assets/4ec97bce-b19a-4508-9451-ce181fb20763)
+
+-> launching yosys and synthesizing 
+
+```
+yosys
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> read_verilog multiple_modules.v
+yosys> synth -top multiple_modules
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> show multiple_modules 
+```
+
+![image](https://github.com/user-attachments/assets/1a4838d5-809a-4ad5-910b-368807683625)
+
+![image](https://github.com/user-attachments/assets/616a9fdc-9209-4463-b5d7-1c5deebe8731)
+
+
+Hierarchical design code for the multiple_modules:
+
+-> Code
+
+``` ruby
+module multiple_modules(a, b, c, y);
+	  input a;
+	 input b;
+	 input c;
+	  wire net1;
+	 output y;
+  sub_module1 u1 (.a(a),.b(b),.y(net1) );
+  sub_module2 u2 (.a(net1),.b(c),.y(y));
+endmodule
+
+module sub_module1(a, b, y);
+ wire _0_;
+ wire _1_;
+ wire _2_;
+ input a;
+ input b;
+ output y;
+ sky130_fd_sc_hd__and2_0 _3_ (.A(_1_),.B(_0_),.X(_2_));
+ assign _1_ = b;
+ assign _0_ = a;
+ assign y = _2_;
+endmodule
+
+module sub_module2(a, b, y);
+wire _0_;
+ wire _1_;
+ wire _2_;
+input a;
+input b;
+ output y;
+ sky130_fd_sc_hd__lpflow_inputiso1p_1 _3_ (.A(_1_),.SLEEP(_0_),.X(_2_) );
+ assign _1_ = b;
+ assign _0_ = a;
+ assign y = _2_;
+endmodule
+
+```
+
+Generating netlist for hierarchical design
+
+```
+yosys> write_verilog -noattr multiple_modules_hier.v
+yosys> !vim multiple_modules_hier.v
+```
+
+![image](https://github.com/user-attachments/assets/fe22c28e-d27b-4262-b70c-fc060519d291)
+
+
+Flattened design code for the multiple_modules:
+
+-> Code
+
+``` ruby
+module multiple_modules(a, b, c, y);
+	 wire _0_;
+	 wire _1_;
+	 wire _2_;
+	 wire _3_;
+	 wire _4_;
+	 wire _5_;
+	 input a;
+	 input b;
+	 input c;
+	 wire net1;
+	 wire \u1.a ;
+	 wire \u1.b ;
+	 wire \u1.y ;
+	 wire \u2.a ;
+	 wire \u2.b ;
+	 wire \u2.y ;
+	output y;
+	 sky130_fd_sc_hd__and2_0 _6_ (
+	  .A(_1_),
+	 .B(_0_),
+	 .X(_2_)
+	);
+	 sky130_fd_sc_hd__lpflow_inputiso1p_1 _7_ (
+	  .A(_4_),
+	  .SLEEP(_3_),
+	  .X(_5_)
+	 );
+	 assign _4_ = \u2.b ;
+	 assign _3_ = \u2.a ;
+	 assign \u2.y  = _5_;
+	 assign \u2.a  = net1;
+	 assign \u2.b  = c;
+	 assign y = \u2.y ;
+	 assign _1_ = \u1.b ;
+	 assign _0_ = \u1.a ;
+	 assign \u1.y  = _2_;
+	 assign \u1.a  = a;
+	 assign \u1.b  = b;
+	 assign net1 = \u1.y ;
+	endmodule
+
+```
+
+Generating netlist for flat design
+
+```
+yosys> flatten
+yosys> write_verilog -noattr multiple_modules_flat.v
+yosys> !vim multiple_modules_flat.v
+```
+
+![image](https://github.com/user-attachments/assets/83d1e162-8a14-4d3b-b7d6-09922869d8a2)
+
+
+</details>
 
 </details>
 
