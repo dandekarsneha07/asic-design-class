@@ -2008,7 +2008,150 @@ endmodule
 
 <summary>Day 3</summary>
 
+# Combinational and sequential optimizations
+
+<details> 
+<summary> Introduction to Optimization </summary>
+
+## 3.1 Introduction to Optimization
+
+The synthesis tool Yosys employs various optimization techniques to produce an efficient circuit design, refining the logic to achieve the most optimized result.
+
+The techniques used for Combinational Logic Optimization are:
+1. Constant propagation : It is a direct optimization technique.
+2. Boolean Logic Optimization
+
+The techniques used for Sequential Logical Optimization are:
+1. Sequential constant propagation
+2. State Optimization : Optimization of unused states.
+3. Retiming
+4. Sequential logic cloning (Floorplan aware synthesis)
+
+Command to optimize the circuit by yosys is 
+
+```
+yosys> opt_clean -purge
+```
+
 </details>
+
+<details> 
+<summary> Combinational Logic Optimization </summary>
+
+## 3.2 Combinational Logic Optimization
+
+### Example 1
+
+```verilog
+module opt_check (input a , input b , output y);
+	assign y = a?b:0;
+endmodule
+```
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/ac39c46d-90ef-433c-8cc9-c3bdf60d3a5b)
+
+
+### Example 2
+
+```verilog
+module opt_check2 (input a , input b , output y);
+	assign y = a?1:b;
+endmodule
+```
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/b47b130f-28e5-45eb-a433-e269554fb1d8)
+
+
+### Example 3
+
+```verilog
+module opt_check3 (input a , input b, input c , output y);
+	assign y = a?(c?b:0):0;
+endmodule
+```
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/63439b3d-c9aa-42a2-97e8-a6bc689f5750)
+
+
+### Example 4
+
+```verilog
+module opt_check4 (input a , input b , input c , output y);
+	assign y = a?(b?(a & c ):c):(!c);
+endmodule
+```
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/cb5d3529-9067-4057-8a22-f991006484e8)
+
+
+### Example 5
+
+```verilog
+module sub_module(input a , input b , output y);
+	assign y = a & b;
+endmodule
+
+module multiple_module_opt2(input a , input b , input c , input d , output y);
+	wire n1,n2,n3;
+	sub_module U1 (.a(a) , .b(1'b0) , .y(n1));
+	sub_module U2 (.a(b), .b(c) , .y(n2));
+	sub_module U3 (.a(n2), .b(d) , .y(n3));
+	sub_module U4 (.a(n3), .b(n1) , .y(y));
+endmodule
+```
+
+```
+yosys>read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys>read_verilog multiple_module_opt2.v
+yosys>synth -top multiple_module_opt2
+yosys>abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys>flatten
+yosys>opt_clean -purge
+yosys>show
+```
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/553a9042-e935-4023-bd06-95fdcbceb246)
+
+### Example 6
+
+```verilog
+module sub_module1(input a , input b , output y);
+assign y = a & b;
+endmodule
+
+module sub_module2(input a , input b , output y);
+assign y = a^b;
+endmodule
+
+module multiple_module_opt(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+assign y = c | (b & n1); 
+endmodule
+```
+
+#### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/ce5c586f-b972-4bd7-8206-a6754f7010ac)
+
+
+</details>
+
+</details>
+
 
 <details>
 
