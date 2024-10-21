@@ -1616,9 +1616,9 @@ endmodule
 
 <summary> Introduction to yosys and logic synthesizer </summary>
 
-# 1.3 Introduction to yosys and logic synthesizer
+## 1.3 Introduction to yosys and logic synthesizer
 
-## 1.3.1 Introduction to Yosys synthesizer
+### 1.3.1 Introduction to Yosys synthesizer
 
 #### Synthesis
 
@@ -1647,7 +1647,7 @@ The gtkwave output for the netlist should match the output waveform for the RTL 
 
 ![image](https://github.com/user-attachments/assets/a1d15eb0-7957-47f5-866e-a71ee1e64091)
 
-## 1.3.2 Introduction to Logic Synthesis
+### 1.3.2 Introduction to Logic Synthesis
 
 #### Understanding of .lib
 
