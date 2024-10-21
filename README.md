@@ -2148,13 +2148,176 @@ endmodule
 
 #### Synthesized Output
 
-![image](https://github.com/user-attachments/assets/ce5c586f-b972-4bd7-8206-a6754f7010ac)
+![image](https://github.com/user-attachments/assets/cc0f718b-908d-44a8-901f-c6a4dbe8b35d)
 
 
 </details>
 
+<details> 
+<summary> Sequential logic optimization </summary>
+
+## 3.3 Sequential logic optimization
+
+Basic Sequential Constant Propagation: In this technique, only the first logic can be optimized because the output of the first flip-flop is always zero. However, for the second flip-flop, where the output changes continuously, constant propagation cannot be applied.
+
+Advanced State Optimization: This technique focuses on optimizing unused states in a design. By applying this method, we can achieve a more efficient and streamlined state machine.
+
+Sequential Logic Cloning (Floorplan-Aware Synthesis): This is applied during physical-aware synthesis. For example, if flip-flop A is connected to flip-flops B and C through combinational logic, and B and C are placed far from A in the floorplan, a routing delay can occur. To minimize this delay, two intermediate flip-flops are introduced between A and B/C, reducing the delay. This process is called cloning because two new flip-flops with the same functionality as A are created.
+
+Retiming: Retiming is an advanced sequential optimization technique that involves moving registers across combinational logic or optimizing the number of registers. This improves performance by balancing power and delay trade-offs, without altering the circuit's input-output behavior.
+
+#### Example-1
+
+```verilog
+module dff_const1(input clk, input reset, output reg q);
+	always @(posedge clk, posedge reset)
+	begin
+		if(reset)
+			q <= 1'b0;
+		else
+			q <= 1'b1;
+	end
+endmodule
+```
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/64bbadf8-4676-46e6-bf14-60f86aa17c74)
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/cf7ce3e2-a68a-4b04-a9c4-5ee97be065b5)
+
+
+#### Example-2
+
+```verilog
+module dff_const2(input clk, input reset, output reg q);
+	always @(posedge clk, posedge reset)
+	begin
+		if(reset)
+			q <= 1'b1;
+		else
+			q <= 1'b1;
+	end
+endmodule
+```
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/b2ceac80-68df-40c4-95cb-8effa56e87e3)
+
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/eace1928-db97-419c-add7-c1f2cd043690)
+
+
+#### Example-3
+
+```verilog
+module dff_const3(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+endmodule
+```
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/a3ce43f3-1913-419e-b0c8-bf854917a1db)
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/f7a34f88-7080-47b8-8e3f-c22f4364154b)
+
+
+#### Example-4
+
+```verilog
+module dff_const4(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b1;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+endmodule
+```
+
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/cae00013-d2d1-4bbb-a5c7-d45569cec9ff)
+
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/f1036e58-be45-4609-af12-e6fee65e33ea)
+
+
+#### Example-5
+
+```verilog
+module dff_const5(input clk, input reset, output reg q);
+reg q1;
+always @(posedge clk, posedge reset)
+	begin
+	if(reset)
+	begin
+		q <= 1'b0;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+endmodule
+```
+
+##### Output
+
+![image](https://github.com/user-attachments/assets/f6d1a9f7-b312-4aed-978b-d1ea9d32eb9e)
+
+
+##### Synthesized Output
+
+![image](https://github.com/user-attachments/assets/1e5856ba-023d-4973-8935-8b2d88cefa01)
+
+
 </details>
 
+<details> 
+<summary> Sequential optimization for unused outputs </summary>
+
+## 3.4 Sequential optimization for unused outputs
+
+
+
+</details>
 
 <details>
 
