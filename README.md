@@ -2565,6 +2565,7 @@ gtkwave tb_ternary_operator_mux.vcd
 
 ![image](https://github.com/user-attachments/assets/258a8b0c-ae88-4792-bf7b-63eee18e2bed)
 
+Here the synthesis and simulation results are same, There is no synthesis simulation mismatch.
 
 ### Example-2
 
@@ -2600,7 +2601,7 @@ gtkwave tb_bad_mux.vcd
 
 ![image](https://github.com/user-attachments/assets/0d73b47a-cfc8-4788-8462-ea48c603e4d7)
 
-The output correctly depicts the behaviour of a mux.
+Here the synthesis and simulation results are not same, there is synthesis simulation mismatch. The netlist simulation output depicts the true behaviour of a MUX.
 
 </details>
 
