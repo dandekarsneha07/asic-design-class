@@ -2528,6 +2528,12 @@ gtkwave tb_blocking_caveat.vcd
 
 ![image](https://github.com/user-attachments/assets/cf3a236c-e350-422f-b293-3ad56e6ad296)
 
+#### Synthesis Simultaion mismatch
+
+![image](https://github.com/user-attachments/assets/bd20e52f-5ca6-4dc7-9711-0af533126123)
+
+Here second pic show the netlist simulation which shows the proper working of the dut while the first pic shows the improper working of dut as we have used blocking statement here which causes synthesis simulation mismatch which is sorted out by GLS while providing netlist simulation
+
  
 </details>
 
