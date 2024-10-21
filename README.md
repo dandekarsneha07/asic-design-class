@@ -1322,6 +1322,327 @@ Output:
 
 <details>
 
+<summary> Assignment-8 </summary>
+
+<details>
+	
+<summary> Day 0 </summary>
+ 
+</details>
+
+<details>
+	
+<summary> Day 1 </summary>
+
+# Introduction to Verilog RTL design and Synthesis
+
+<details> 
+<summary> Introduction to Verilog RTL design and Synthesis </summary>
+
+## 1.1 Introduction to open source iverilog 
+
+#### Register Transfer Level (RTL) 
+
+RTL is a methodology that enables data transfer between registers. In RTL design, we use Hardware Description Languages (HDLs) like Verilog to code both sequential and combinational circuits. These codes can simulate the functionality of both hardware and logic operations. An RTL design may be composed of a single Verilog file or multiple ones. It is essential to ensure that RTL designs are written using efficient and synthesizable code, making them realizable in physical gate-level implementations.
+
+##### -> Example templet for RTL
+
+```ruby
+
+module <module_name> (port list);
+	//declarations;
+	//initializations;
+	//continuos concurrent assigments;
+	//procedural blocks;
+endmodule
+
+```
+
+![image](https://github.com/user-attachments/assets/19bad4e5-10d6-41bf-8521-ac93da401ab2)
+
+#### Testbench 
+
+Verilog enables the creation of testbenches that simulate the behavior of hardware designs by generating input signals and validating the resulting output signals. Testbenches are vital for larger and more complex designs as they help confirm that the simulation outcomes align with the expected behavior of the actual hardware after synthesis. Typically, a testbench includes two components: one for generating input signals for the design under test and another for verifying the accuracy of the output signals.
+
+##### -> Example templet for Testbench
+
+```ruby
+
+`timescale 1ns/1ps  // Specify the time unit and precision
+
+// Testbench Module
+module <testbench_name>;
+
+// Signal Declarations
+
+// Instantiate the Design Under Test (DUT)
+<module_name> DUT (
+    .clk(clk),
+    .reset(reset),
+    .input_signal(input_signal),
+    .output_signal(output_signal)
+);
+
+// Clock Generation
+always #5 clk = ~clk;
+
+// Initial Block for Signal Initialization
+// Stimulus Generation
+// Dump waveform to view in simulation tools (optional)
+initial begin
+    $dumpfile("testbench.vcd");
+    $dumpvars(0, <testbench_name>);
+end
+
+endmodule
+
+```
+
+#### Simulation 
+
+RTL designs are validated against their specifications by simulating them with a variety of input samples. This process is crucial for identifying and correcting design errors early in the development cycle.
+
+#### Simulator 
+
+A simulator is a software tool used to execute RTL designs and verify their functionality. It tracks changes in input signals and computes the corresponding output signals. If there are no changes in the input signals, the simulator does not detect any variations in the output signals.
+
+#### Iverilog 
+
+Icarus Verilog (Iverilog) is a free and open-source Verilog simulator used for verifying the functionality of digital circuits. It supports numerous Verilog language constructs, such as modules, ports, wires, registers, gates, and behavioral descriptions.
+
+![image](https://github.com/user-attachments/assets/d9298b9e-4948-427d-ae22-45d02454e92d)
+
+
+#### gtkwave 
+
+gtkwave is a free and open-source waveform viewer widely used in digital design and verification. It offers a graphical interface for visualizing and analyzing digital waveforms, making it an essential tool for debugging and understanding the behavior of hardware designs.
+
+
+</details>
+
+<details>
+
+<summary>Lab examples using iverilog and gtkwave </summary>
+ 
+## 1.2 Lab examples using iverilog and gtkwave
+
+### Step-1 Clone the following repository
+
+```
+
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+cd sky130RTLDesignAndSynthesisWorkshop
+
+```
+### Step-2 Running the verilog code and analyzing the output
+
+-> Command to run verilog code with testbench
+
+```
+iverilog good_mux.v tb_good_mux.v
+./a.out
+gtkwave tb_good_mux.vcd
+```
+
+-> Code
+
+```ruby
+module good_mux (input i0 , input i1 , input sel , output reg y);
+always @ (*)
+begin
+	if(sel)
+		y <= i1;
+	else 
+		y <= i0;
+end
+endmodule
+```
+
+-> Testbench
+
+```ruby
+`timescale 1ns / 1ps
+module tb_good_mux;
+// Inputs
+reg i0,i1,sel;
+// Outputs
+wire y;
+// Instantiate the Unit Under Test (UUT), name based instantiation
+	good_mux uut (.sel(sel),.i0(i0),.i1(i1),.y(y));
+	//good_mux uut (sel,i0,i1,y);  //order based instantiation
+initial begin
+	$dumpfile("tb_good_mux.vcd");
+	$dumpvars(0,tb_good_mux);
+	// Initialize Inputs
+	sel = 0;
+	i0 = 0;
+	i1 = 0;
+	#300 $finish;
+end
+always #75 sel = ~sel;
+always #10 i0 = ~i0;
+always #55 i1 = ~i1;
+endmodule
+```
+
+### -> Snapshot of the commands 
+
+![image](https://github.com/user-attachments/assets/f45f7124-e4ed-4f4b-b5b6-dbf7681d28b5)
+
+### -> gtkwave output
+
+![image](https://github.com/user-attachments/assets/fcaa9c43-ab92-4825-9777-84d947bcd6cb)
+</details>
+
+<details>
+
+<summary> Introduction to yosys and logic synthesizer </summary>
+
+## 1.3.1 Introduction to Yosys synthesizer
+
+#### Synthesis
+
+Synthesis is the process of converting a high-level design into a low-level netlist of logic gates, optimized for a specific technology library. This involves dividing the design into fundamental logic components, mapping these components to actual gates, and optimizing the netlist to meet design constraints. This step ensures that the abstract design can be implemented as physical hardware.
+
+#### Synthesizer
+
+A synthesizer is a tool used to translate RTL design code into a netlist. In this workshop, Yosys is used as the synthesizer tool.
+
+#### Yosys
+
+Yosys aims to converting high-level hardware descriptions into optimized gate-level representations that can be targeted for various FPGA and ASIC technologies. The flow for yosys is we feed the yosys with the design which is in RTL level and the .lib file which contain standard library cells then the yosys synthesizes and gives us the netlist file.
+
+![image](https://github.com/user-attachments/assets/aab45dd9-917b-4259-8e6f-8e371acf2a44)
+
+Below are the commands to perform above synthesis.
+
+1. RTL Design - read_verilog
+2. .lib - read_liberty
+3. netlist file - write_verilog
+
+#### Verifyling Synthesis 
+
+In order to make sure that there are no errors in the netlist, we'll have to verify the synthesized circuit. 
+The gtkwave output for the netlist should match the output waveform for the RTL design file. As netlist and design code have same set of inputs and outputs, we can use the same testbench and compare the waveforms.
+
+![image](https://github.com/user-attachments/assets/a1d15eb0-7957-47f5-866e-a71ee1e64091)
+
+## 1.3.2 Introduction to Logic Synthesis
+
+#### Understanding of .lib
+
+It contains detailed information about the standard cells used in digital design. These cells are the fundamental building blocks, like logic gates (AND, OR, NOT) and flip-flops, which are used to create more complex circuits. It has different variations (essentially different driving strengths, number of inputs) of these funadamental gates with different performaces.
+
+Different performances refer to faster or slower gates. 
+Faster the charging or dicharging of load (i.e capacitance), lesser is the cell delay. However, for a quick charging or discharging of load, we need transistors capable of sourcing more current i.e, we need wider transistors. Wider transistors have lesser delay but consume more area and power. Narrow transistors are other way around. Faster cells come with a cost of area and power.
+
+Wider transistors -> low delay -> More Power and Area
+
+Narrow transitor -> More delay -> Less Area and Power
+
+#### Use-case of cells
+
+There is always a trade off between power area and timing. More use of fast cells can lead to more power and area but lesser delay and use of slow cells can lead to a sluggish circuit consuming less power.
+We need to give 'constaraints' which can help optimize the selection of cells with different driving strengths.
+
+#### Infering the RTL design into synthesized design
+
+![image](https://github.com/user-attachments/assets/bf5cd0f4-1dac-4971-9b91-b94bfd6f249c)
+
+
+</details>
+
+<details>
+
+<summary> Labs using Yosys and SKY130 PDKs </summary>
+
+## 1.4 Labs using Yosys and SKY130 PDKs
+
+Invoking Yosys in the verilog_file directory and running following commands.
+
+![image](https://github.com/user-attachments/assets/aacae2cf-34fd-4c4e-a9ab-e75dc60fc69f)
+
+#### -> Commands
+
+```
+yosys> read_liberty -lib <path_for_sky130>/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> read_verilog <path_for_sky130_verilog_file>
+yosys> synth -top good_mux
+yosys> abc -liberty <path_for_sky130>/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> show
+```
+
+
+![image](https://github.com/user-attachments/assets/f702f07a-976d-4922-841c-8c171f416616)
+
+
+```
+yosys> write_verilog good_mux_netlist.v
+yosys> write_verilog -noattr good_mux_netlist.v
+```
+
+
+![image](https://github.com/user-attachments/assets/6d09915c-2d60-403b-bfd2-8a42830b41ed)
+
+
+</details>
+ 
+</details>
+
+<details>
+	
+<summary> Day 2 </summary>
+
+# Timing libs, hierarchical vs flat synthesis and efficient flop coding styles
+
+<details> 
+<summary> Introduction to timing .libs </summary>
+
+## 2.1 Introduction to timing .libs
+
+The .lib file, also known as a "library file" or "standard cell library file," is a crucial component in the VLSI (Very-Large-Scale Integration) design process. It contains detailed information about the standard cells used in digital design. These cells are the fundamental building blocks, like logic gates (AND, OR, NOT) and flip-flops, which are used to create more complex circuits.
+
+The .lib file provides all the data necessary to model the behavior and characteristics of these cells during synthesis, simulation, and timing analysis.
+
+liberty file contains following information:
+
+1. Cell Descriptions
+2. Timing 
+3. Power 
+4. Area 
+5. Input/Output Pin Details
+6. Operating Conditions (PVT)
+
+#### -> Opening the .lib file
+
+```
+ gvim sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+
+</details>
+
+
+
+</details>
+
+<details>
+
+<summary>Day 3</summary>
+
+</details>
+
+<details>
+
+<summary>Day 4</summary>
+
+</details>
+
+
+
+</details>
+
+<details>
+
 <summary> References </summary>
 
 https://makerchip.com/sandbox
