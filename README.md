@@ -2584,6 +2584,10 @@ endmodule
 
 ![image](https://github.com/user-attachments/assets/73dfdca6-801a-42e3-9c33-3dc2377dcba1)
 
+#### Synthesys Output
+
+![image](https://github.com/user-attachments/assets/307e094f-44c6-435d-ae0e-eba31f53f42e)
+
 #### Commands for netlist simulation
 
 ```
