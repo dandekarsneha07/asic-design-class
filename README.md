@@ -2315,7 +2315,51 @@ endmodule
 
 ## 3.4 Sequential optimization for unused outputs
 
+-> Code
 
+```verilog
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = count[0];
+always @(posedge clk ,posedge reset)
+begin
+if(reset)
+	count <= 3'b000;
+else
+	count <= count + 1;
+end
+endmodule
+```
+
+#### Output
+
+![image](https://github.com/user-attachments/assets/53462ece-4f9d-452b-9298-d7044bafc81e)
+
+
+#### Udpdated counter code
+
+-> Code
+
+```verilog
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = {count[2:0]==3'b100};
+always @(posedge clk ,posedge reset)
+begin
+if(reset)
+	count <= 3'b000;
+else
+	count <= count + 1;
+end
+endmodule
+```
+
+#### Output
+
+![image](https://github.com/user-attachments/assets/8ca6c2d4-6fab-4bd7-8563-c0e012acb181)
+
+
+</details>
 
 </details>
 
