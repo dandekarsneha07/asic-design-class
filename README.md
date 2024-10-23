@@ -2689,7 +2689,7 @@ write_verilog -noattr rvmyth_net.v
 
 These commands will generate the vsdbaby soc top level netlist file called as rvmyth_net.v
 
-#### Post Synthesis simulation of GLS
+## Post Synthesis simulation of GLS
 
 Following are the commands to compile using iverilog and plot the post synthesized simulation with gtkwave
 
@@ -2711,6 +2711,7 @@ gtkwave pre_synth_sim.vcd
 
 ![image](https://github.com/user-attachments/assets/713d8767-1a49-4fe5-a7a5-7192d1189178)
 
+-> Zoomed wave window
 
 ![image](https://github.com/user-attachments/assets/44d049e5-3fe2-401b-b0d2-fb7e58c81efc)
 
@@ -2719,6 +2720,7 @@ gtkwave pre_synth_sim.vcd
 
 ![image](https://github.com/user-attachments/assets/7c5df48f-0e2c-439e-891d-e545d29f4c0e)
 
+-> Zoomed wave window
 
 ![image](https://github.com/user-attachments/assets/4f120e2c-3715-4d04-b6d8-944e148e5d1c)
 
@@ -2736,6 +2738,7 @@ OUT: This is a real datatype wire which can simulate analog values. It is the ou
 
 ![image](https://github.com/user-attachments/assets/f2325c38-7eb7-4c8c-b64b-402578de7fe7)
 
+-> Zoomed wave window
 
 ![image](https://github.com/user-attachments/assets/1e2ad27f-4688-43c9-ab0d-07e78773761e)
 
