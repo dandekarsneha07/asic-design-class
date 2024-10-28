@@ -2752,6 +2752,186 @@ OUT: This is a real datatype wire which can simulate analog values. It is the ou
 
 <details>
 
+<summary> Assignmnet-10 </summary>
+
+# Static Timing Analysis of Synthesized RISC-V core using OpenSTA
+
+## Understanding Static Timing Analysis (STA)
+
+Static Timing Analysis (STA) is a technique used to verify the timing of a digital design without using specific input data values, setting it apart from timing simulation or dynamic timing analysis, which checks both timing and functionality by applying inputs and observing the design's response. 
+
+STA is called "static" because it doesn't depend on changing input conditions instead it examines timing constraints across the whole design. In general, timing analysis refers to checking for timing-related issues, whether through STA or timing simulation, depending on the verification requirements.
+
+Static timing analysis is a complete and exhaustive verification of all timing checks of a design. Other timing analysis methods such as simulation can only verify the portions of the design that get exercised by stimulus. Verification through timing simulation is only as exhaustive as the test vectors used. To simulate and verify all timing conditions of a design with 10-100 million gates is very slow and the timing cannot be verified completely.
+Thus, it is very difficult to do exhaustive verification through simulation.
+
+Static timing analysis on the other hand provides a faster and simpler way of checking and analyzing all the timing paths in a design for any timing violations.
+
+- Timing Paths: STA evaluates all possible paths through a circuit from input to output, taking into account the propagation delays of gates and interconnects. There are mainly four types of timing paths defined in STA.
+
+  	1.  reg-to-reg : register to register this path is purely sequential. The start point of this is from the clk to q of reg1 and the end point is the input data pin of reg2.
+  
+  	2.  reg-to-out : register to output here the start point is the reg and the end point of timing path is an output port.
+  	4.  in-to-reg : input to register here the start point is an input port of block and end point is the input data pin of reg/flip-flop.
+  	5.  in-to-out : input to output this is combinational path the start point is input port of desig and end point is output port of design
+
+
+- Setup and Hold Times: It checks for setup and hold time violations. The setup time is the minimum time before the clock edge that the input data must be stable, while the hold time is the minimum time after the clock edge that the data must remain stable.
+
+- Clock Constraints: STA incorporates clock definitions, including the clock frequency, period, and any variations (like skew or jitter).
+
+- Worst-case Scenario: STA assumes worst-case conditions for delay values (like maximum load, temperature, and voltage) to ensure that the circuit will perform correctly under all expected operating conditions.
+
+- Tools: There are various tools for performing STA, such as Synopsys PrimeTime, Cadence Tempus, and others, which automate the process and provide detailed reports on timing violations.
+
+
+## Understanding the analysis of register to register path 
+
+A reg-to-reg path, or register-to-register path, is a timing path in a digital circuit linking two sequential components, such as flip-flops or registers. This path is significant in Static Timing Analysis (STA) as it reflects the transfer of data between registers through combinational logic.
+
+reg-to-reg paths are fundamental for maintaining accurate data flow and synchronization within digital circuits, particularly in designs involving pipelining or sequential processes. Analyzing these paths is essential to confirm that data is processed correctly across clock cycles, thereby supporting the circuit's functionality and dependability.
+
+- Sequential Logic: reg-to-reg paths are part of sequential circuits where data is stored in registers and passed from one register to another after being processed by combinational logic.
+
+- Setup and Hold Timing:
+
+	1. Setup Time: reg-to-reg paths are analyzed for setup time constraints to ensure that the data output from the first register (FF1) arrives at the second register (FF2) before the clock edge that triggers FF2.
+	2. Hold Time: These paths are also evaluated for hold time constraints to ensure that the data remains stable at the input of FF2 for a specified period after the clock edge that triggers FF1.
+	3. Combinational Logic Delay: The timing analysis of a reg-to-reg path includes the propagation delay through the combinational logic that connects the two registers. This delay can vary based on the logic elements and their 		configuration.
+
+- Critical Paths: reg-to-reg paths can often be critical paths if they take longer than other paths in the design, which can limit the maximum operating frequency of the circuit.
+
+- Path Analysis: STA tools evaluate reg-to-reg paths to check for timing violations, allowing designers to optimize the circuit by adjusting the logic, resizing gates, or modifying the layout.
+
+- Clock Domain Crossing: If the two registers belong to different clock domains, additional considerations for metastability and synchronization are needed, which complicates the reg-to-reg timing analysis.
+
+## OpenSTA
+
+### Initilizing libs and linking design
+
+-> reading liberty files - command to read Liberty library files
+
+We can specify process corner for corner delay calculation, min for min delay calculation (eg hold) and max for max delay calculation.
+
+```
+read_liberty -min/max/corner <lib_name> 
+```
+
+For example,
+We will give the lib with worst process voltage temp for max i.e 
+
+Maximum - Process SS, Voltage low, Temperature max
+
+-> reading netlist files - command reads a gate level verilog netlist
+
+```
+read_verilog <filename>
+```
+
+-> linking design 
+
+```
+link_design <top_module_name>
+```
+
+
+### Writing .sdc
+
+This format is primarily used to specify the timing constraints of a design. It is a text file. Some inportant SDC commands are listed here.
+
+-> .sdc templet
+
+```
+# clock generation and defination
+# clock related constraints
+# input output delay and transition constraints
+```
+
+-> Creating clock
+```
+create_clock -name <clk_name> -period <period_in_ns> -wavrform {rising_edge, falling_edge} <assigning_clk_port>
+```
+
+-> Clock latency - The command describes expected delays of the clock tree when analyzing a design using ideal clocks
+
+```
+set_clock_latency -source <value> <assigning_clk_port>		#if its source latency
+```
+
+-> clock uncertainty - The command specifies the uncertainty or jitter in a clock.
+
+```
+set_clock_uncertainty -setup/hold <value> <assigning_clk_port> 
+```
+
+-> Input Transition - The command is used to specify the transition time (slew) of an input signal
+
+```
+set_input_transition -max/min  <value> <assigning_ports>
+```
+
+-> Input Delay - The command is used to specify the arrival times on the input ports
+
+```
+set_input_delay -clock <clk_name> -max/min <value> <assigning_input_ports> 
+```
+
+-> Output Delay - The command is used to specify the arrival times on the output port
+
+```
+set_output_delay -clock <clk_name> -max/min <value> <assigning_ports> 
+```
+
+-> To read the sdc file following command is used
+
+```
+read_sdc <file_name/file_path>
+```
+
+## STA of core RISC-V
+
+-> Commands
+
+```
+# reading libs and linking design
+read_liberty <lib_path>/sky130_fd_sc_hd__tt_025C_1v80.lib	# reading timing
+read_verilog <netlist_path>/rvmyth_net.v			# reading netlist
+link_design rvmyth						# linking top design
+
+# synopsys design constraints 
+create_clock -name clk -period 11.9 [get_ports clk] 			# clock defination and generation
+set_clock_uncertainty [expr 0.05 * 11.9] -setup [get_clocks clk] 	# 5% setup uncertainty
+set_clock_uncertainty [expr 0.08 * 11.9] -hold [get_clocks clk] 	# 8% hold uncertainty
+set_clock_transition [expr 0.05 * 11.9] [get_clocks clk]  		# clock slew
+set_input_transition [expr 0.08 * 11.9] [all_inputs -no_clocks] 	# input slews
+
+# creating timing reports
+report_checks -path_delay max 	# setup slack report
+report_checks -path_delay min	# hold slack report
+```
+
+#### -> clock properties
+
+![image](https://github.com/user-attachments/assets/616718ec-4346-4629-b3e4-802b99938ceb)
+
+
+#### -> Setup timing report
+
+
+![image](https://github.com/user-attachments/assets/a15cd47f-ac6e-4c0c-a2a8-6770c168862d)
+
+
+#### -> Hold timing report
+
+![image](https://github.com/user-attachments/assets/26e73227-7355-4655-ae8d-f1a80c96379b)
+
+
+</details>
+
+
+
+<details>
+
 <summary> References </summary>
 
 * https://makerchip.com/sandbox
