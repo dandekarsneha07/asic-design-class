@@ -2928,7 +2928,141 @@ report_checks -path_delay min	# hold slack report
 
 </details>
 
+<details>
 
+<summary> Assignment-11 </summary>
+
+# Static Timing Analysis of Synthesized RISC-V core using different PVT Corner Library Files on OpenSTA
+
+#### PVT (Process, Voltage, Temperature)
+
+The PVT analysis is done to ensure that a chip functions reliably across all possible operating conditions, it is simulated under various combinations of these factors, known as "corners." Each of these parameters directly impacts the delay of the cell.
+
+#### Process (P): 
+
+Process variation refers to deviations in the semiconductor fabrication process, such as variations in impurity concentration, oxide thickness, and transistor dimensions. These process variations can cause changes in transistor parameters like threshold voltage, mobility, and current drive, which in turn impact the circuit delay and performance. Circuits designed with a "fast" process will have lower delays, while "slow" process corners will have higher delays.
+
+![image](https://github.com/user-attachments/assets/924a6135-97f0-40c1-878e-35fdab861653)
+
+
+#### Voltage (V): 
+
+With shrinking nodes, the supply voltage for a chip also reduces. For instance, if a chip operates at 1.2V, this voltage might fluctuate at different times, ranging between 1.5V and 0.8V. To account for this, voltage variation is considered in simulations.
+
+Voltage variation can occur due to multiple factors:
+
+- IR Drop: Caused by current flow over the power grid network.
+- Supply Noise: Occurs due to parasitic inductance interacting with resistance and capacitance, resulting in voltage fluctuations when current flows through parasitic inductance.
+
+![image](https://github.com/user-attachments/assets/d8252016-cd72-4616-8fba-5cea785af6c0)
+
+
+#### Temperature (T):
+
+The operating temperature of the chip can vary widely depending on the environment and power dissipation within the chip. Higher temperatures generally decrease carrier mobility, leading to increased delays.
+
+![image](https://github.com/user-attachments/assets/0d2026cd-5d13-4be9-bd2c-20490d1790be)
+
+
+The constraints file from the earlier lab is also read(clock-11.90 ns with 5% of clock period for clock uncertainity and data transition delay for setup and 8% of clock period for clock uncertainity and data transition delay for hold) with additional constraints is as follows
+
+#### -> .sdc
+
+```tcl
+
+#*** Setting clock constraints  ****
+
+# create clock of 11.9ns
+create_clock -name clk -period 11.9 [get_ports clk]
+
+# setting clock uncertainty
+set_clock_uncertainty [expr 0.05 * 11.9] -setup [get_clocks clk] 
+set_clock_uncertainty [expr 0.08 * 11.9] -hold [get_clocks clk]
+
+# setting clock transition
+set_clock_transition [expr 0.05 * 11.9] [get_clocks clk]  
+
+# setting clock latency
+set_clock_latency 1 [get_clocks clk]
+set_clock_latency -source 1.5 [get_clocks clk]
+
+#*** Setting input output constraints  ****
+
+
+#setting the load
+set_load -min -pin_load 0.5 [all_outputs]
+
+#setting input transition
+set_input_transition [expr 0.08 * 11.9] [all_inputs -no_clocks]
+
+# setting input delay
+set_input_delay -clock clk -max 4 [all_inputs -no_clocks]
+set_input_delay -clock clk -min 1 [all_inputs -no_clocks]
+
+#setting output delay
+set_output_delay -clock clk -max 4 [all_outputs]
+set_output_delay -clock clk -min 1 [all_outputs]
+
+```
+
+The tcl script to run the reprots for all corners is as below
+
+```tcl
+# lib list
+
+set list_of_lib_files(1) "sky130_fd_sc_hd__tt_025C_1v80.lib"
+set list_of_lib_files(2) "sky130_fd_sc_hd__tt_100C_1v80.lib"
+set list_of_lib_files(3) "sky130_fd_sc_hd__ff_100C_1v65.lib"
+set list_of_lib_files(4) "sky130_fd_sc_hd__ff_100C_1v95.lib"
+set list_of_lib_files(5) "sky130_fd_sc_hd__ff_n40C_1v56.lib"
+set list_of_lib_files(6) "sky130_fd_sc_hd__ff_n40C_1v65.lib"
+set list_of_lib_files(7) "sky130_fd_sc_hd__ff_n40C_1v76.lib"
+set list_of_lib_files(8) "sky130_fd_sc_hd__ff_n40C_1v95.lib"
+set list_of_lib_files(9) "sky130_fd_sc_hd__ss_100C_1v40.lib"
+set list_of_lib_files(10) "sky130_fd_sc_hd__ss_100C_1v60.lib"
+set list_of_lib_files(11) "sky130_fd_sc_hd__ss_n40C_1v28.lib"
+set list_of_lib_files(12) "sky130_fd_sc_hd__ss_n40C_1v35.lib"
+set list_of_lib_files(13) "sky130_fd_sc_hd__ss_n40C_1v40.lib"
+set list_of_lib_files(14) "sky130_fd_sc_hd__ss_n40C_1v44.lib"
+set list_of_lib_files(15) "sky130_fd_sc_hd__ss_n40C_1v60.lib"
+set list_of_lib_files(16) "sky130_fd_sc_hd__ss_n40C_1v76.lib"
+
+
+
+for {set i 1} {$i <= [array size list_of_lib_files]} {incr i} {
+read_liberty /home/vsduser/SFAL-VSD/skywater-pdk-libs-sky130_fd_sc_hd/timing/$list_of_lib_files($i)
+read_verilog /home/vsduser/assignments/VSDBabySoC/rvmyth_net.v
+link_design rvmyth
+current_design
+read_sdc /home/vsduser/assignments/VSDBabySoC/rvmyth.sdc
+check_setup -verbose
+report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} > /home/vsduser/assignments/VSDBabySoC/sta_output/min_max_$list_of_lib_files($i).txt
+
+exec echo "$list_of_lib_files($i)" >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_worst_max_slack.txt
+report_worst_slack -max -digits {4} >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_worst_max_slack.txt
+
+exec echo "$list_of_lib_files($i)" >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_worst_min_slack.txt
+report_worst_slack -min -digits {4} >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_worst_min_slack.txt
+
+exec echo "$list_of_lib_files($i)" >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_tns.txt
+report_tns -digits {4} >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_tns.txt
+
+exec echo "$list_of_lib_files($i)" >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_wns.txt
+report_wns -digits {4} >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_wns.txt
+}
+
+```
+
+#### Worst Setup Slack (WNS):
+
+![image](https://github.com/user-attachments/assets/562441da-8efa-4ee2-adeb-5097f4ec7fb8)
+
+#### Worst Hold Slack (WHS):
+
+![image](https://github.com/user-attachments/assets/5e6a5b2d-ea3c-4783-b537-28ff35c66d85)
+
+
+</details>
 
 <details>
 
