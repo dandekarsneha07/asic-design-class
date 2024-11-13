@@ -3509,6 +3509,17 @@ magic -d XR &
 
 ```
 
+Load Sky130 tech rules for drc challenges
+First load the poly file by load poly.mag on tkcon window.
+
+```
+load poly.mag
+```
+
+Finding the error by mouse cursor and find the box area, Poly.9 is violated due to spacing between polyres and poly.
+
+
+
 ![Screenshot 2024-11-13 223603](https://github.com/user-attachments/assets/47e4b886-aa6c-43bf-89d3-a10cf6e3989b)
 
 
