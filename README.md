@@ -3066,6 +3066,106 @@ report_wns -digits {4} >> /home/vsduser/assignments/VSDBabySoC/sta_output/sta_wn
 
 <details>
 
+<summary>Assignment-12</summary>
+
+<details>
+
+<summary> Day-1</summary>
+
+# Inseption of open-source EDA, OpenLANE and Sky130 PDK
+
+<details>
+
+<summary> Theory </summary>
+
+#### -> Package
+
+In any embedded board, the component we commonly refer to as the chip is actually the package of the chip. This package is essentially a protective casing around the actual manufactured chip, which is typically located at the center of the package. Connections from the package to the chip are established using the wire bonding method, where thin wires connect the two, forming a basic wired link to facilitate signal transfer.
+
+
+#### -> Chip
+
+All signals entering and leaving in the chip from the external world pass through pads. The region enclosed by these pads is called the core, where all the digital logic of the chip resides. Together, the core and pads form the die, which serves as the fundamental manufacturing unit for semiconductor chips.
+
+#### -> Foundary
+
+A foundry is the facility where semiconductor chips are manufactured, and foundry IPs refer to Intellectual Properties tailored to a particular foundry. Developing these IPs requires specialized expertise. In contrast, reusable digital logic blocks within these designs are referred to as macros.
+
+#### -> ISA (Instruction Set Architecture)
+
+To run a C program on a specific hardware layout, such as the chip within a laptop, a particular flow must be followed. First, the C program is compiled into assembly language using the RISC-V ISA (Reduced Instruction Set Computing - V Instruction Set Architecture). This assembly code is then translated into machine language, represented in binary (0s and 1s), which the computer’s hardware can process. Following this, the RISC-V specifications are implemented in RTL (Register Transfer Level) using a hardware description language. Finally, the design moves from RTL to layout in a standard PnR (Place and Route) or RTL to GDSII flow.
+
+#### -> RTL IPs (Register Transfer Level Intellectual Property)
+
+RTL IPs refer to pre-designed and pre-verified digital hardware components or blocks represented at the Register Transfer Level (RTL). RTL is a level of abstraction in hardware description languages (HDLs) that describes data flow between registers and the operations performed on this data. In IC design, an IP block is a reusable component that can be integrated into larger designs, and RTL IPs, in particular, are developed at this level to simplify design integration. These IPs can either be licensed from vendors or developed in-house, enabling designers to focus on higher-level aspects rather than dealing with low-level implementation details. Using RTL IPs enhances productivity, shortens time-to-market, and improves design reliability, as they are well-optimized and pre-tested, minimizing potential errors and promoting design reuse in complex systems.
+
+#### -> EDA (Electronic Design Automation)
+
+EDA tools are software applications used to design, develop, and analyze electronic systems, such as integrated circuits (ICs) and printed circuit boards (PCBs). These tools automate many design tasks, increasing efficiency and speeding up time-to-market.
+
+#### -> Process Design Kit (PDK)
+
+A Process Design Kit (PDK) is a collection of files used to model a semiconductor fabrication process within design tools for IC development. PDKs are typically proprietary and specific to a particular foundry, often protected by non-disclosure agreements. Recently, however, open-source PDKs have been introduced to encourage innovation and collaboration in the design community. Open-source PDKs, such as SKY130, GFU180, and ASAP7, allow designers to access, customize, and modify the kit to suit specific design requirements. This flexibility promotes knowledge sharing, reduces barriers for new designers, and encourages collaborative development in IC and electronic system design.
+
+### RTL to GDSII flow
+
+#### -> RTL Design (Register Transfer Level)
+
+Using Hardware Description Languages (HDLs) like Verilog or VHDL, the designer describes the logical operations and functionality of each module. RTL code represents the behavior of the circuit at the register level, laying the groundwork for synthesis.
+
+#### -> Synthesis
+
+Convert the RTL code into a gate-level netlist using a synthesis tool. This process maps the RTL description onto standard cells provided by the foundry, creating a network of logic gates that can be implemented on silicon. Constraints such as timing, power, and area are applied here.
+
+#### -> Design for Testability (DFT)
+
+Incorporate test structures, such as scan chains and built-in self-test (BIST) circuits, to make post-manufacturing testing possible. DFT enhances the ability to detect defects in the silicon after production.
+
+#### -> Floorplanning and Powerplanning - is a crucial step in the digital design flow that involves partitioning the chip's area and determining the placement of major components and functional blocks. It establishes an initial high-level layout and defines the overall chip dimensions, locations of critical modules, power grid distribution, and I/O placement.The primary goals of floor planning are: Area Partitioning, Power Distribution, Signal Flow and Interconnect Planning, Placement of Key Components, Design Constraints and Optimization.
+
+#### -> Placement - Placement involves assigning the physical coordinates to each gate-level cell on the chip's layout. The placement process aims to minimize wirelength, optimize signal delay, and satisfy design rules and constraints. Modern placement algorithms use techniques like global placement and detailed placement to achieve an optimal placement solution.
+
+#### ->  Clock Tree Synthesis (CTS)
+
+Design the clock distribution network to deliver the clock signal with minimal skew and delay across the chip. CTS ensures synchronous operation of the logic by maintaining uniform timing throughout the design.
+
+#### -> Routing
+
+Connect all the placed cells and blocks with metal wires according to the netlist. Routing is done in multiple layers and needs to meet timing and power constraints. Ensuring that the connections do not cause crosstalk or violate design rules is crucial at this stage.
+
+#### -> Signoff and Physical Verification
+
+Verify the physical layout against the design rules provided by the foundry (DRC - Design Rule Check) and ensure the layout matches the intended logic design (LVS - Layout vs. Schematic). Additional checks include timing analysis (STA - Static Timing Analysis), power analysis, and IR drop analysis.
+
+</details>
+
+## 1. Run 'picorv32a' design synthesis using OpenLANE flow and generate necessary outputs. Commands to invoke the OpenLANE flow and perform synthesis
+
+```ruby
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+#invoke docker
+docker
+
+docker sub-system
+./flow.tcl -interactive
+
+#required packages for proper functionality of the OpenLANE flow
+package require openlane 0.9
+
+#prep the design
+prep -design picorv32a
+```
+
+
+ 
+</details>
+
+ 
+</details>
+
+<details>
+
 <summary> References </summary>
 
 * https://makerchip.com/sandbox
