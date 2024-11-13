@@ -4007,6 +4007,7 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 ```
 cd Desktop/work/tools/openlane_working_dir/openlane/scripts/spef_extraction
 
+python3 main.py --lef_file /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-11_21-58/tmp/merged.lef --def_file /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-11_21-58/results/routing/picorv32a.def
 ```
 
 ![image](https://github.com/user-attachments/assets/dd363921-49c9-4010-a8f6-cb8e5a5e6b2d)
