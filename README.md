@@ -3486,8 +3486,66 @@ Rising delay =  2.21 - 2.15 = 0.06 ns
 Falling delay =  4.08 - 4.05 = 0.03 ns
 ```
 
+![image](https://github.com/user-attachments/assets/a967f187-4783-42f4-be0b-3f7a5408d7b2)
 
- 
+```
+# Command to download the lab files
+wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+
+# Since lab file is compressed command to extract it
+tar xfz drc_tests.tgz
+
+# Change directory into the lab folder
+cd drc_tests
+
+# List all files and directories present in the current directory
+ls -al
+
+# Command to view .magicrc file
+gvim .magicrc
+
+# Command to open magic tool in better graphics
+magic -d XR &
+
+```
+
+![Screenshot 2024-11-13 223603](https://github.com/user-attachments/assets/47e4b886-aa6c-43bf-89d3-a10cf6e3989b)
+
+
+
+![image](https://github.com/user-attachments/assets/37bb2680-a6eb-427e-bfe2-82efeb603de8)
+
+
+In line
+```
+spacing npres *nsd 480 touching_illegal \
+	"poly.resistor spacing to N-tap < %d (poly.9)"
+```
+
+change to
+
+```
+spacing npres allpolynonres 480 touching_illegal \
+	"poly.resistor spacing to N-tap < %d (poly.9)"
+```
+
+Also,
+
+```
+spacing xhrpoly,uhrpoly,xpc alldiff 480 touching_illegal \
+	"xhrpoly/uhrpoly resistor spacing to diffusion < %d (poly.9)"
+```
+
+change to
+
+```
+spacing xhrpoly,uhrpoly,xpc allpolynonres 480 touching_illegal \
+	"xhrpoly/uhrpoly resistor spacing to diffusion < %d (poly.9)"
+```
+
+![image](https://github.com/user-attachments/assets/e083ad97-e653-4a0d-97c3-4eab1799b215)
+
+
 </details>
 
 </details>
