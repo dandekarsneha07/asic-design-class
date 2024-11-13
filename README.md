@@ -3400,6 +3400,10 @@ ext2spice
 
 ![image](https://github.com/user-attachments/assets/1459c5da-844f-4f90-96ca-b46a55d9e7eb)
 
+-> Grid values
+
+![image](https://github.com/user-attachments/assets/8b8357c0-fa65-428f-86fc-d920993d632f)
+
 
 ![image](https://github.com/user-attachments/assets/91fc74fd-939b-4c05-a119-bdf0b20b8dbe)
 
@@ -3557,6 +3561,15 @@ spacing xhrpoly,uhrpoly,xpc allpolynonres 480 touching_illegal \
 ![image](https://github.com/user-attachments/assets/e083ad97-e653-4a0d-97c3-4eab1799b215)
 
 
+</details>
+
+<details>
+
+<summary> Day-4 </summary>
+
+## Pre-Layout timing analysis and Importance of good clock tree
+
+ 
 </details>
 
 </details>
