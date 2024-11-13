@@ -3569,6 +3569,12 @@ spacing xhrpoly,uhrpoly,xpc allpolynonres 480 touching_illegal \
 
 ## Pre-Layout timing analysis and Importance of good clock tree
 
+
+![image](https://github.com/user-attachments/assets/8ab2ce73-6c9b-4e79-8e7c-9156807cff97)
+
+
+![image](https://github.com/user-attachments/assets/2923ce9e-14ae-4226-a436-f24f9d6d583f)
+
  
 </details>
 
