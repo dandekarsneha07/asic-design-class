@@ -3308,6 +3308,16 @@ Timing-aware placement focuses on ensuring that the cells are placed in a way th
 run_placement
 ```
 
+-> Opening the DEF file
+
+```ruby
+# path containing generated placement def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_path>/results/placement/
+
+# Command to load the placement def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+
 
 ![placement](https://github.com/user-attachments/assets/0152dc05-807e-4113-9c96-f61b3c665af3)
 
@@ -3319,13 +3329,6 @@ we can see the power rails for standard cells as well as the legalized placed st
 ![standard_cell_grid_power](https://github.com/user-attachments/assets/78a1ffbc-beaa-4246-97aa-9d0fa74fe80a)
 
 
-```ruby
-# path containing generated placement def
-cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_path>/results/placement/
-
-# Command to load the placement def in magic tool
-magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
-```
 
 </details>
 
