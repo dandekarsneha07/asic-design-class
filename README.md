@@ -3191,13 +3191,91 @@ Percentage of Flip Flops = 0.108429685 ∗ 100 = 10.84296854%**
 
 ![synth_wns](https://github.com/user-attachments/assets/c9e5cc99-5d73-4470-a652-c38e06464bc4)
 
+</details>
+
+
+<details>
+
+<summary> Day-2 </summary>
+
+## Good Floorplan vs Bad Floorplan and Introduction to Library Cell
+
+Floorplanning and power planning are essential steps in ASIC physical design. Together, they define the spatial arrangement of components and the distribution of power within the chip, ensuring that design goals like performance, area, power efficiency, and signal integrity are met.
+
+#### -> Pre-Placed Cells
+
+Pre-placed cells are specific components in an ASIC design that are positioned on the layout early in the design flow, prior to general cell placement. They include essential elements such as input/output (I/O) pads, power management cells, memory blocks, analog cells, and IP cores. These pre-placed cells should be surrounded by decoupling capacitors, which are large capacitors designed to store electrical charge and maintain a voltage close to that of the power supply. When a circuit switches, the decoupling capacitor temporarily acts as a power source, effectively isolating the circuit from the main power supply. During switching events, it provides the necessary current to the circuit, helping to prevent voltage drops. By placing these capacitors close to the circuit, they ensure stable current delivery during switching operations. The decoupling capacitor charges the circuit by transferring some of its stored charge during switching, then recharges itself from the power supply when the circuit is idle.
+
+#### ->  Floorplanning
+Floorplanning is the process of organizing and arranging large blocks or modules of an ASIC design on the chip’s layout. This phase has a significant impact on the final performance, timing, and area of the chip.
+
+#### -> Power Planning
+Power planning is the process of designing an efficient power distribution network to deliver stable power across the chip. It aims to prevent power drops, minimize IR drop, and manage the overall power integrity of the design.
+
+-> Floorplanning
+
+```ruby
+#run floorplan using following command
+run_floorplan
+```
+
+![floorplanning_running_area](https://github.com/user-attachments/assets/65c15569-ba31-474e-a100-d886ed061bba)
+
+
+
+```ruby
+#path containing generated floorplan def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_path>/results/floorplan/
+
+# Command to load the floorplan def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
+
+-> Tap Cells
+
+
+![tap_cells](https://github.com/user-attachments/assets/2a8db58b-d549-4f0a-a533-ad4d950968f9)
+
+-> IO ports, boundary cells, IO ports
+
+![floorplan_ios_tapcell](https://github.com/user-attachments/assets/f9e36144-2f42-4dbf-af7f-163386637d3d)
+
+
+-> IO port layers
+
+
+![floorplan_io](https://github.com/user-attachments/assets/f43cb0bd-31c0-496a-a433-b0fffa48d974)
+
+-> Unplaced standard cells
+
+
+![standard_cells](https://github.com/user-attachments/assets/3dcdc781-de72-43dc-bd85-ac0f174fb5c6)
+
+
+According to floorplan def 1000 Unit Distance = 1 micron Die width in unit distance 
+
+= 660685 − 0 
+
+= 660685 Die height in unit distance = 671405 − 0 
+
+= 671405 Distance in microns 
+
+= Value in unit distance / 1000 Die width in microns 
+
+= 660685/1000 = 660.685 microns Die height in microns 
+
+= 671405/1000 = 671.405 microns Are os die in microns 
+
+= 660.685 ∗ 671.405 = 443587.212425 square microns
+
+
 
 
 
 
 </details>
 
- 
+
 </details>
 
 <details>
