@@ -3109,6 +3109,7 @@ A Process Design Kit (PDK) is a collection of files used to model a semiconducto
 
 ### RTL to GDSII flow
 
+
 #### -> RTL Design (Register Transfer Level)
 
 Using Hardware Description Languages (HDLs) like Verilog or VHDL, the designer describes the logical operations and functionality of each module. RTL code represents the behavior of the circuit at the register level, laying the groundwork for synthesis.
@@ -3120,6 +3121,10 @@ Convert the RTL code into a gate-level netlist using a synthesis tool. This proc
 #### -> Design for Testability (DFT)
 
 Incorporate test structures, such as scan chains and built-in self-test (BIST) circuits, to make post-manufacturing testing possible. DFT enhances the ability to detect defects in the silicon after production.
+
+### -> ASIC Flow
+
+![image](https://github.com/user-attachments/assets/83564b15-da2f-4c06-b9c2-58b0ca674108)
 
 #### -> Floorplanning and Powerplanning - is a crucial step in the digital design flow that involves partitioning the chip's area and determining the placement of major components and functional blocks. It establishes an initial high-level layout and defines the overall chip dimensions, locations of critical modules, power grid distribution, and I/O placement.The primary goals of floor planning are: Area Partitioning, Power Distribution, Signal Flow and Interconnect Planning, Placement of Key Components, Design Constraints and Optimization.
 
@@ -3136,6 +3141,8 @@ Connect all the placed cells and blocks with metal wires according to the netlis
 #### -> Signoff and Physical Verification
 
 Verify the physical layout against the design rules provided by the foundry (DRC - Design Rule Check) and ensure the layout matches the intended logic design (LVS - Layout vs. Schematic). Additional checks include timing analysis (STA - Static Timing Analysis), power analysis, and IR drop analysis.
+
+
 
 </details>
 
