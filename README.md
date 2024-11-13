@@ -3239,6 +3239,11 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 
 ![tap_cells](https://github.com/user-attachments/assets/2a8db58b-d549-4f0a-a533-ad4d950968f9)
 
+The tap cells are placed in staggered manner i.e they are placed in checker board pattern. Tap cells, which are typically used for providing electrical connections to the power (VDD) and ground (VSS) rails in a chip, are placed in a staggered pattern to improve the overall power integrity and signal performance.
+
+![tap_cells](https://github.com/user-attachments/assets/f429c874-fde3-4a0e-9e37-c6836f90b740)
+
+
 -> IO ports, boundary cells, IO ports
 
 ![floorplan_ios_tapcell](https://github.com/user-attachments/assets/f9e36144-2f42-4dbf-af7f-163386637d3d)
@@ -3277,10 +3282,38 @@ According to floorplan def 1000 Unit Distance = 1 micron Die width in unit dista
 
 = 660.685 ∗ 671.405 = 443587.212425 square microns
 
+-> Powerplanning
+
+![powerplanning_running](https://github.com/user-attachments/assets/fe515f3f-9f5f-429c-bd3c-e6e34fab170f)
 
 
+### Placement
+
+Placement in ASIC design is the step where standard cells (like logic gates and flip-flops) are positioned on the chip layout based on the floorplan. This stage directly affects the chip’s performance, timing, area, and power efficiency. Placement can be divided into two main stages: global placement and detailed placement.
+
+```ruby
+# Congestion aware placement by default
+run_placement
+```
 
 
+![placement](https://github.com/user-attachments/assets/0152dc05-807e-4113-9c96-f61b3c665af3)
+
+
+-> Legalized placement of standard cells
+
+we can see the power rails for standard cells as well as the legalized placed standard cells
+
+![standard_cell_grid_power](https://github.com/user-attachments/assets/78a1ffbc-beaa-4246-97aa-9d0fa74fe80a)
+
+
+```ruby
+# path containing generated placement def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_path>/results/placement/
+
+# Command to load the placement def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
 
 </details>
 
