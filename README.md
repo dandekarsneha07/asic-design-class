@@ -3348,6 +3348,61 @@ we can see the power rails for standard cells as well as the legalized placed st
 
 ## Design Library Cell Using Magic Layout and Cell characterization
 
+<details>
+
+<summary> 16-Mask CMOS Fabrication Theory </summary>
+
+#### Substrate Selection
+
+This is the most initial phase of the process where the subrstrate is chosen.Here we are chosing a p-substrate.
+
+![image](https://github.com/user-attachments/assets/6509394f-08d5-4cff-9d9c-7cb11ee740ec)
+
+#### Active Region Creation
+
+To isolate the active regions for transistors, the process starts with the deposition of SiO₂ (silicon dioxide) and Si₃N₄ (silicon nitride) layers. This is followed by photolithography and etching of the silicon nitride layer. This method is known as LOCOS (Local Oxidation of Silicon), where an oxide layer is grown in specific areas to define the active regions. Finally, the Si₃N₄ layer is removed using hot H₂SO₄ (sulfuric acid).
+
+![image](https://github.com/user-attachments/assets/e28d5eb5-d0cf-47d2-8b70-5baed533202c)
+
+#### N-Well and P-Well Formation
+
+The N-well and P-well regions are formed independently. For P-well formation, boron ions are implanted, while for N-well formation, phosphorus ions are used. A high-temperature furnace process is then applied to drive-in the diffusion of these ions, establishing the well depths in a step commonly referred to as the tub process.
+
+![image](https://github.com/user-attachments/assets/b6841e78-efac-4c5f-a401-2f861ea74ec6)
+
+#### Gate Formation
+
+The gate is a crucial terminal in CMOS transistors, as it regulates the threshold voltage for transistor switching. The gates for both NMOS and PMOS transistors are created using photolithography techniques. Key factors in gate formation include the oxide capacitance and the doping concentration, which influence the transistor's performance.
+
+![image](https://github.com/user-attachments/assets/61c0c95f-03ea-497d-85b1-015a6744cc30)
+
+#### Lightly dopped Drain(LDD)
+
+LDD formed to avoid the hot electron effect.
+
+![image](https://github.com/user-attachments/assets/6ddcb8ec-67de-4ede-8a94-8ef9f948be78)
+
+#### Source and Drain Formation
+
+Screen oxide added to avoid channelling during implants followed by Aresenic implantation and high temperature annealing.
+
+![image](https://github.com/user-attachments/assets/1730d209-9f8c-4580-a1b3-968dc40bcf58)
+
+#### Local Interconnect Formation
+
+The screen oxide layer is removed using HF etching, followed by the deposition of titanium (Ti) to create low-resistance contacts. Heat treatment is then applied, leading to chemical reactions that form titanium silicide at the contact points for low-resistance interconnects, and titanium nitride at the top-level connections, facilitating local signal routing.
+
+![image](https://github.com/user-attachments/assets/ed09ac14-0ec4-454d-b947-fa347730dcdd)
+
+#### Higher Level Metal Formation
+
+Chemical Mechanical Polishing (CMP) is performed by doping silicon oxide with boron or phosphorus to achieve surface planarization. This process is followed by the deposition of titanium nitride (TiN) and tungsten. An aluminum (Al) layer is then deposited, patterned using photolithography, and further polished with CMP. This forms the first interconnect layer. Additional interconnect layers can be stacked on top to achieve higher levels of metal connections. Finally, a dielectric layer, typically Si₃N₄ (silicon nitride), is added on top to protect the chip.
+
+![image](https://github.com/user-attachments/assets/5824d368-de9e-4db3-a4fc-d4faa066b007)
+
+
+</details>
+
 ### Clone custom inverter standard cell design from github repository
 
 ```ruby
