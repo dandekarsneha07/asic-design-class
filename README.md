@@ -3231,8 +3231,11 @@ cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
 ```
 
--> Tap Cells
 
+![image](https://github.com/user-attachments/assets/7576eafd-b08a-4a35-9440-5c75743021ac)
+
+
+-> Tap Cells
 
 ![tap_cells](https://github.com/user-attachments/assets/2a8db58b-d549-4f0a-a533-ad4d950968f9)
 
@@ -3250,6 +3253,12 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 
 
 ![standard_cells](https://github.com/user-attachments/assets/3dcdc781-de72-43dc-bd85-ac0f174fb5c6)
+
+
+-> Floorplaning DEF
+
+
+![image](https://github.com/user-attachments/assets/c1fee97b-ba7a-487b-acc2-01ca8f1ae649)
 
 
 According to floorplan def 1000 Unit Distance = 1 micron Die width in unit distance 
