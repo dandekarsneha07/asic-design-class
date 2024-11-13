@@ -3185,6 +3185,13 @@ Flop Ratio = 1613/14876 = 0.108429685
 
 Percentage of Flip Flops = 0.108429685 ∗ 100 = 10.84296854%
 
+#### -> TNS and WNS
+
+![synth_tns](https://github.com/user-attachments/assets/91170212-808b-4502-9faf-cd5070380bac)
+
+![synth_wns](https://github.com/user-attachments/assets/c9e5cc99-5d73-4470-a652-c38e06464bc4)
+
+
 
 
 
