@@ -3569,13 +3569,229 @@ spacing xhrpoly,uhrpoly,xpc allpolynonres 480 touching_illegal \
 
 ## Pre-Layout timing analysis and Importance of good clock tree
 
+Tracks.info contains the information needed to obtain the grids; cd to the specific directory and open the file
+
+```
+li1 X 0.23 0.46  
+li1 Y 0.17 0.34   
+met1 X 0.17 0.34
+met1 Y 0.17 0.34
+met2 X 0.23 0.46
+met2 Y 0.23 0.46
+met3 X 0.34 0.68
+met3 Y 0.34 0.68
+met4 X 0.46 0.92
+met4 Y 0.46 0.92
+met5 X 1.70 3.40
+met5 Y 1.70 3.40
+```
+
+Use the below command in the tkcon window to get grid on magic.
+
+```
+grid 0.46um 0.34um 0.23um 0.17um
+```
 
 ![image](https://github.com/user-attachments/assets/8ab2ce73-6c9b-4e79-8e7c-9156807cff97)
 
 
 ![image](https://github.com/user-attachments/assets/2923ce9e-14ae-4226-a436-f24f9d6d583f)
 
- 
+
+### Including Custom Cells in ASIC Design
+
+In the first stages of an inverter, we produced a proprietary standard cell. Move the lef files, sky130_fd_sc_hd_typical.lib, sky130_fd_sc_hd_slow.lib, and sky130_fd_sc_hd_fast.lib from the libs folder vsdstdcelldesign to the picorv32a's src folder. Next, make the following changes to config.tcl.
+
+```
+# Design
+set ::env(DESIGN_NAME) "picorv32a"
+
+set ::env(VERILOG_FILES) "$::env(DESIGN_DIR)/src/picorv32a.v"
+
+set ::env(CLOCK_PORT) "clk"
+set ::env(CLOCK_NET) $::env(CLOCK_PORT)
+
+set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) {1}
+
+set ::env(LIB_SYNTH) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_SLOWEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib"
+set ::env(LIB_FASTEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_TYPICAL) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+
+set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+
+set filename $::env(DESIGN_DIR)/$::env(PDK)_$::env(STD_CELL_LIBRARY)_config.tcl
+if { [file exists $filename] == 1} {
+	source $filename
+}
+```
+
+### Copy the newly generated lef and associated required lib files to 'picorv32a' design 'src' directory.
+
+-> Commands
+```
+# Copy lef file
+cp sky130_vsdinv.lef ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+
+# List and check whether it's copied
+ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+
+# Copy lib files
+cp libs/sky130_fd_sc_hd__* ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+
+# List and check whether it's copied
+ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+```
+
+### Run openlane flow synthesis with newly inserted custom inverter cell.
+
+-> Commands
+
+```
+cd Desktop/work/tools/openlane_working_dir/openlane
+docker
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+run_synthesis
+```
+
+-> To remove violations of tns and wns
+
+```
+prep -design picorv32a -tag <your_folder> -overwrite
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+
+echo $::env(SYNTH_STRATEGY)
+
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+
+echo $::env(SYNTH_BUFFERING)
+
+echo $::env(SYNTH_SIZING)
+
+set ::env(SYNTH_SIZING) 1
+
+echo $::env(SYNTH_DRIVING_CELL)
+
+run_synthesis
+
+run_floorplan
+```
+
+During run_floorplan the error is founf
+
+-> Screenshot of error
+
+
+```
+# Follwing commands are alltogather sourced in "run_floorplan" command
+init_floorplan
+place_io
+tap_decap_or
+```
+
+-> Now that floorplan is done we can do placement using following command
+
+```
+# Now we are ready to run placement
+run_placement
+```
+
+-> Commands
+
+```
+# Change directory to path containing generated placement def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_file>/results/placement/
+
+# Command to load the placement def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+
+-> Screenshot of placement
+
+### Post-Synthesis timing analysis with OpenSTA tool
+
+Since we are having 0 wns after improved timing run we are going to do timing analysis on initial run of synthesis which has lots of violations and no parameters were added to improve timing
+Commands to invoke the OpenLANE flow include new lef and perform synthesis
+
+```
+cd Desktop/work/tools/openlane_working_dir/openlane
+docker
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+set ::env(SYNTH_SIZING) 1
+run_synthesis
+```
+
+Newly created pre_sta.conf for STA analysis in openlane directory
+
+-> Screenshot
+
+
+Newly created my_base.sdc for STA analysis in openlane/designs/picorv32a/src directory based on the file openlane/scripts/base.sdc
+
+-> Screenshot
+
+Commands to run STA in another terminal
+
+-> Commands
+
+```
+# Command to invoke OpenSTA tool with script
+sta pre_sta.conf
+```
+
+We are getting 0 violation design, clean design for further stages
+
+-> CTS
+
+```
+run_cts
+```
+
+### Post-CTS OpenROAD timing analysis.
+Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrated OpenSTA in OpenROAD
+
+```
+# Command to run OpenROAD tool
+openroad
+read_lef /openLANE_flow/designs/picorv32a/runs/<your_path>/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs//<your_path>/results/cts/picorv32a.cts.def
+write_db pico_cts.db
+read_db pico_cts.db
+read_verilog /openLANE_flow/designs/picorv32a/runs//<your_path>/results/synthesis/picorv32a.synthesis_cts.v
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+link_design picorv32a
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+set_propagated_clock [all_clocks]
+help report_checks
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+exit
+```
+
+### Explore post-CTS OpenROAD timing analysis 
+
+```
+report_clock_skew -hold
+report_clock_skew -setup
+exit
+# Checking current value of 'CTS_CLK_BUFFER_LIST'
+echo $::env(CTS_CLK_BUFFER_LIST)
+# Inserting 'sky130_fd_sc_hd__clkbuf_1' to first index of list
+set ::env(CTS_CLK_BUFFER_LIST) [linsert $::env(CTS_CLK_BUFFER_LIST) 0 sky130_fd_sc_hd__clkbuf_1]
+echo $::env(CTS_CLK_BUFFER_LIST)
+```
+
+
+
 </details>
 
 </details>
