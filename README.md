@@ -3547,6 +3547,14 @@ Falling delay =  4.08 - 4.05 = 0.03 ns
 
 ![image](https://github.com/user-attachments/assets/a967f187-4783-42f4-be0b-3f7a5408d7b2)
 
+### Design Rule Check (DRC)
+
+DRC verifies whether a design meets the predefined process technology rules given by the foundry for its manufacturing. DRC checking is an essential part of the physical design flow and ensures the design meets manufacturing requirements and will not result in a chip failure. It defines the Quality of chip. They are so many DRCs, let us see few of them
+
+### Design rules for physical wires
+
+Minimum width of the wire, Minimum spacing between the wires, Minimum pitch of the wire To solve signal short violation, we take the metal layer and put it on to upper metal layer. we check via rules, Via width, via spacing.
+
 ```
 # Command to download the lab files
 wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
@@ -3574,9 +3582,6 @@ First load the poly file by load poly.mag on tkcon window.
 ```
 load poly.mag
 ```
-
-Finding the error by mouse cursor and find the box area, Poly.9 is violated due to spacing between polyres and poly.
-
 
 
 ![Screenshot 2024-11-13 223603](https://github.com/user-attachments/assets/47e4b886-aa6c-43bf-89d3-a10cf6e3989b)
@@ -3928,7 +3933,25 @@ exit
 
 <summary>Day-5</summary>
 
-### Perform generation of Power Distribution Network (PDN)
+## Final steps for RTL2GDS using tritonRoute and openSTA
+
+### Power Distribution Network generation
+
+Power Distribution Network generation is not a part of floorplan run in OpenLANE. PDN must be generated after CTS and post-CTS STA analyses
+
+Power rings,strapes and rails are created by PDN. From VDD and VSS pads, power is drawn to power rings. Next, the horizontal and vertical strapes connected to rings draw the power from strapes. Stapes are connected to rings and these rings are connected to std cells. So, standard cells get power from rails.
+
+### Routing
+
+In the realm of routing within Electronic Design Automation (EDA) tools, such as both OpenLANE and commercial EDA tools, the routing process is exceptionally intricate due to the vast design space. To simplify this complexity, the routing procedure is typically divided into two distinct stages: Global Routing and Detailed Routing.
+
+The two routing engines responsible for handling these two stages are as follows:
+
+Global Routing: In this stage, the routing region is subdivided into rectangular grid cells and represented as a coarse 3D routing graph. This task is accomplished by the "FASTE ROUTE" engine.
+
+Detailed Routing: Here, finer grid granularity and routing guides are employed to implement the physical wiring. The "tritonRoute" engine comes into play at this stage. "Fast Route" generates initial routing guides, while "Triton Route" utilizes the Global Route information and further refines the routing, employing various strategies and optimizations to determine the most optimal path for connecting the pins.
+
+### Generation of Power Distribution Network (PDN)
 
 
 -> Commands 
