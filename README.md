@@ -3418,6 +3418,12 @@ plot y vs time a
 
 ![image](https://github.com/user-attachments/assets/9d630059-458c-4d29-8f84-36eba7b8df7b)
 
+There are four timing parameters used to characterize the inverter standard cell:
+
+1. Rise transition - Time taken for the output to rise from 20% to 80% of max value
+2. Fall Transition: Time taken for the output to fall from 80% to 20% of max value
+3. Cell Rise delay: difference in time(50% output rise) to time(50% input fall)
+4. Cell Fall delay: difference in time(50% output fall) to time(50% input rise)
 
 -> Rising Transition
 
@@ -3449,7 +3455,7 @@ Rise Transistion = 2.24 - 2.18 = 0.065ns
 Fall Transistion = 4.09 - 4.05 = 0.04 ns 
 ```
 
--> Rising Delay
+->  Cell Rise Delay
 
 -> 50% from input falling
 
@@ -3465,7 +3471,7 @@ Fall Transistion = 4.09 - 4.05 = 0.04 ns
 Rising delay =  2.21 - 2.15 = 0.06 ns
 ```
 
--> Falling Delay
+-> Cell Fall Delay
 
 -> 50% from input rising
 
