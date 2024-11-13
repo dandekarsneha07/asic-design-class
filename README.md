@@ -3994,7 +3994,50 @@ cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-11
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
 
 ```
- 
+
+![image](https://github.com/user-attachments/assets/9cc865b0-9e59-4ddf-ac1b-cb90c85835d1)
+
+![image](https://github.com/user-attachments/assets/7c85a48f-3abb-4771-8171-cc7eeb4a47e5)
+
+
+### Post-Route parasitic extraction using SPEF extractor
+
+-> Commands for SPEF extraction 
+
+```
+cd Desktop/work/tools/openlane_working_dir/openlane/scripts/spef_extraction
+
+```
+
+![image](https://github.com/user-attachments/assets/dd363921-49c9-4010-a8f6-cb8e5a5e6b2d)
+
+
+### Post-Route OpenSTA timing analysis with the extracted parasitics of the route
+
+-> Commands 
+
+```
+openroad
+read_lef /openLANE_flow/designs/picorv32a/runs/13-11_21-58/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/routing/picorv32a.def
+write_db pico_route.db
+read_db pico_route.db
+read_verilog /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/synthesis/picorv32a.synthesis_preroute.v
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+link_design picorv32a
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+set_propagated_clock [all_clocks]
+read_spef /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/routing/picorv32a.spef
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+exit
+```
+
+![image](https://github.com/user-attachments/assets/3a83ce66-56c2-4051-bcb3-c0b2e61e26f8)
+
+![image](https://github.com/user-attachments/assets/be3a4b45-abb9-415c-9985-2c887bdf5e3a)
+
+
+
 </details>
 
 </details>
