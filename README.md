@@ -3163,6 +3163,8 @@ prep -design picorv32a
 
 #### Running Synthesis
 
+-> Command
+
 ```ruby
 #run synthesis using following command
 run_synthesis
@@ -3221,7 +3223,7 @@ run_floorplan
 
 ![floorplanning_running_area](https://github.com/user-attachments/assets/65c15569-ba31-474e-a100-d886ed061bba)
 
-
+-> Command
 
 ```ruby
 #path containing generated floorplan def
@@ -3291,6 +3293,16 @@ According to floorplan def 1000 Unit Distance = 1 micron Die width in unit dista
 
 Placement in ASIC design is the step where standard cells (like logic gates and flip-flops) are positioned on the chip layout based on the floorplan. This stage directly affects the chip’s performance, timing, area, and power efficiency. Placement can be divided into two main stages: global placement and detailed placement.
 
+-> Congestion aware placement
+
+Congestion-aware placement refers to the process of positioning cells on the chip layout while considering potential routing congestion. The goal is to place cells in such a way that the interconnects (wires) connecting them can be routed efficiently, without excessive overlap or interference that could lead to design rule violations, signal delays, or even physical errors.
+
+-> Timing aware placement
+
+Timing-aware placement focuses on ensuring that the cells are placed in a way that optimizes the chip’s timing performance. The objective is to minimize the delay along critical signal paths (often referred to as critical paths) to meet the required timing constraints (setup and hold times).
+
+
+-> Command
 ```ruby
 # Congestion aware placement by default
 run_placement
