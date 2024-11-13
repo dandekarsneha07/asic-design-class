@@ -3366,6 +3366,121 @@ cp /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/
 # Command to open custom inverter layout in magic
 magic -T sky130A.tech sky130_sne_inv.mag &
 ```
+
+![image](https://github.com/user-attachments/assets/5da47815-5c85-4171-be1f-115e2db78db7)
+
+
+-> n-well
+
+![image](https://github.com/user-attachments/assets/1c47be57-c663-43b6-bce5-0afdd44c08c5)
+
+-> VDD i.e VPWR
+
+![image](https://github.com/user-attachments/assets/0fb177d0-dd6a-4970-a038-f816c6faf937)
+
+
+-> Poly
+
+![image](https://github.com/user-attachments/assets/0bf251c0-988d-419e-a016-7d65431582f9)
+
+
+```ruby
+#extract to .ext format
+extract all
+
+# Before converting ext to spice this command enable the parasitic extraction also
+ext2spice cthresh 0 rthresh 0
+
+# Converting to ext to spice
+ext2spice
+```
+
+
+-> .spice
+
+![image](https://github.com/user-attachments/assets/1459c5da-844f-4f90-96ca-b46a55d9e7eb)
+
+
+![image](https://github.com/user-attachments/assets/91fc74fd-939b-4c05-a119-bdf0b20b8dbe)
+
+-> Command
+
+```ruby
+ngspice <name>.spice
+plot y vs time a
+```
+
+![image](https://github.com/user-attachments/assets/be4be022-3c27-4ecb-a59a-a12bc7f8b58e)
+
+
+
+-> plot
+
+![image](https://github.com/user-attachments/assets/9d630059-458c-4d29-8f84-36eba7b8df7b)
+
+
+-> Rising Transition
+
+-> 20% rising output
+
+![image](https://github.com/user-attachments/assets/6f4a079e-cbeb-42e1-bf53-c286f908aec5)
+
+-> 20% rising output
+
+![image](https://github.com/user-attachments/assets/a3204c5b-9c77-44a0-af9f-3d48c9b10d22)
+
+```
+Rise Transistion = 2.24 - 2.18 = 0.065ns
+```
+
+-> Falling Transition
+
+-> 20% falling output
+
+![image](https://github.com/user-attachments/assets/632a26e9-9aef-4edd-b724-059a9a65140a)
+
+
+-> 80% falling output
+
+
+![image](https://github.com/user-attachments/assets/925c3207-0314-40a0-a125-67c7d5b04af5)
+
+```
+Fall Transistion = 4.09 - 4.05 = 0.04 ns 
+```
+
+-> Rising Delay
+
+-> 50% from input falling
+
+![image](https://github.com/user-attachments/assets/7895cdc4-96a7-4937-93e1-d346bd215364)
+
+
+-> 50% from output rising
+
+![image](https://github.com/user-attachments/assets/0ae3f3a6-e744-4cad-a3cd-67b8985707ca)
+
+
+```
+Rising delay =  2.21 - 2.15 = 0.06 ns
+```
+
+-> Falling Delay
+
+-> 50% from input rising
+
+![image](https://github.com/user-attachments/assets/9abb34f9-8a26-4026-9ef0-73bd62bd1dce)
+
+
+-> 50% from output falling
+
+![image](https://github.com/user-attachments/assets/acc3a3a6-b405-4265-83c3-58d808368328)
+
+```
+Falling delay =  4.08 - 4.05 = 0.03 ns
+```
+
+
  
 </details>
 
