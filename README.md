@@ -3158,7 +3158,36 @@ prep -design picorv32a
 ```
 
 
- 
+![Screenshot 2024-11-12 134603](https://github.com/user-attachments/assets/2756432c-eb83-4cfe-8b0a-338b4fe16d9b)
+
+
+#### Running Synthesis
+
+```ruby
+#run synthesis using following command
+run_synthesis
+
+```
+
+![running_synth](https://github.com/user-attachments/assets/638d0cde-1387-494b-8d03-3d79ab7324a6)
+
+#### -> Synthesis statistics report file
+
+![stat_syth_1](https://github.com/user-attachments/assets/7cd6bc79-2c7b-44e5-845e-6f90aeab09e2)
+
+
+![stat_synth_2](https://github.com/user-attachments/assets/9a050314-d2e7-41a9-a83c-954093a1884a)
+
+
+Calculation of Flop Ratio and DFF % from synthesis statistics report file
+
+Flop Ratio = 1613/14876 = 0.108429685
+
+Percentage of Flip Flops = 0.108429685 ∗ 100 = 10.84296854%
+
+
+
+
 </details>
 
  
