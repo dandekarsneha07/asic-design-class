@@ -3329,9 +3329,34 @@ we can see the power rails for standard cells as well as the legalized placed st
 ![standard_cell_grid_power](https://github.com/user-attachments/assets/78a1ffbc-beaa-4246-97aa-9d0fa74fe80a)
 
 
-
 </details>
 
+<details>
+
+<summary> Day-3 </summary>
+
+## Design Library Cell Using Magic Layout and Cell characterization
+
+### Clone custom inverter standard cell design from github repository
+
+```ruby
+# directory - openlane
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# Clone the repository
+git clone https://github.com/nickson-jose/vsdstdcelldesign
+
+# Change into repository directory
+cd vsdstdcelldesign
+
+# Copy magic tech file to the repo directory for easy access
+cp /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech ./
+
+# Command to open custom inverter layout in magic
+magic -T sky130A.tech sky130_sne_inv.mag &
+```
+ 
+</details>
 
 </details>
 
