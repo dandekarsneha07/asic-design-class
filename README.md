@@ -3597,6 +3597,15 @@ grid 0.46um 0.34um 0.23um 0.17um
 
 ![image](https://github.com/user-attachments/assets/2923ce9e-14ae-4226-a436-f24f9d6d583f)
 
+-> Command
+
+```
+lef write
+```
+
+![image](https://github.com/user-attachments/assets/8bf9b7cf-ebd5-45e2-bef9-c00386dfc194)
+
+
 
 ### Including Custom Cells in ASIC Design
 
@@ -3658,35 +3667,45 @@ add_lefs -src $lefs
 run_synthesis
 ```
 
+![image](https://github.com/user-attachments/assets/38589461-eea9-47a8-9d93-f6717309db43)
+
+![image](https://github.com/user-attachments/assets/67fae605-8092-4864-bf84-bc8865398bed)
+
+![image](https://github.com/user-attachments/assets/d6b44c4b-ac70-45ec-8869-144a0bdab9a4)
+
+
+
 -> To remove violations of tns and wns
 
 ```
 prep -design picorv32a -tag <your_folder> -overwrite
 set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
 add_lefs -src $lefs
-
-
 echo $::env(SYNTH_STRATEGY)
-
 set ::env(SYNTH_STRATEGY) "DELAY 3"
-
 echo $::env(SYNTH_BUFFERING)
-
 echo $::env(SYNTH_SIZING)
-
 set ::env(SYNTH_SIZING) 1
-
 echo $::env(SYNTH_DRIVING_CELL)
-
 run_synthesis
-
 run_floorplan
 ```
 
-During run_floorplan the error is founf
+![image](https://github.com/user-attachments/assets/228a6e86-6d0d-4334-9ad2-4104801f0ee1)
+
+![image](https://github.com/user-attachments/assets/cb0b6550-5d12-4609-ba8b-0b35796b9266)
+
+![image](https://github.com/user-attachments/assets/8d27029d-282f-4d41-8d06-328bd364f1db)
+
+
+
+During run_floorplan the error is found
 
 -> Screenshot of error
 
+![image](https://github.com/user-attachments/assets/50892088-353a-43ad-886d-ee29afd97607)
+
+-> Commands
 
 ```
 # Follwing commands are alltogather sourced in "run_floorplan" command
@@ -3697,6 +3716,11 @@ tap_decap_or
 
 -> Now that floorplan is done we can do placement using following command
 
+![image](https://github.com/user-attachments/assets/239a11f7-66d8-4dd2-a287-9eac1ad21865)
+
+![image](https://github.com/user-attachments/assets/41a4fc50-c933-424f-974a-01800869fbbf)
+
+
 ```
 # Now we are ready to run placement
 run_placement
@@ -3706,13 +3730,29 @@ run_placement
 
 ```
 # Change directory to path containing generated placement def
-cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_file>/results/placement/
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-11_21-58/results/placement/
 
 # Command to load the placement def in magic tool
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
 
 -> Screenshot of placement
+
+![image](https://github.com/user-attachments/assets/72d6b869-6c9f-407c-8f99-e68e19904f97)
+
+![image](https://github.com/user-attachments/assets/2747bdf8-6c1e-485a-ab52-bb7883fbb8bb)
+
+
+-> sky130_sne_inv
+
+![image](https://github.com/user-attachments/assets/82c744e7-cdcd-4ebd-8340-52d8b11a1ecf)
+
+![image](https://github.com/user-attachments/assets/033dbeeb-3ee3-4f28-ab1d-bf812dd9a009)
+
+-> layout
+
+![image](https://github.com/user-attachments/assets/6f34de2a-31f2-44f1-b7fb-41e56813bfef)
+
 
 ### Post-Synthesis timing analysis with OpenSTA tool
 
@@ -3734,11 +3774,18 @@ run_synthesis
 Newly created pre_sta.conf for STA analysis in openlane directory
 
 -> Screenshot
+![image](https://github.com/user-attachments/assets/1eaaa906-ddc8-4ce5-9579-6e4241a4eae6)
 
 
 Newly created my_base.sdc for STA analysis in openlane/designs/picorv32a/src directory based on the file openlane/scripts/base.sdc
 
+![image](https://github.com/user-attachments/assets/14ec3c99-6025-4fec-8678-072d2519e580)
+
+
 -> Screenshot
+
+![image](https://github.com/user-attachments/assets/e24e1d16-d9bb-4c7a-96e9-e6abe79550e2)
+
 
 Commands to run STA in another terminal
 
@@ -3763,11 +3810,11 @@ Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrat
 ```
 # Command to run OpenROAD tool
 openroad
-read_lef /openLANE_flow/designs/picorv32a/runs/<your_path>/tmp/merged.lef
-read_def /openLANE_flow/designs/picorv32a/runs//<your_path>/results/cts/picorv32a.cts.def
+read_lef /openLANE_flow/designs/picorv32a/runs/13-11_21-58/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/cts/picorv32a.cts.def
 write_db pico_cts.db
 read_db pico_cts.db
-read_verilog /openLANE_flow/designs/picorv32a/runs//<your_path>/results/synthesis/picorv32a.synthesis_cts.v
+read_verilog /openLANE_flow/designs/picorv32a/runs//13-11_21-58/results/synthesis/picorv32a.synthesis_cts.v
 read_liberty $::env(LIB_SYNTH_COMPLETE)
 link_design picorv32a
 read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
@@ -3776,6 +3823,7 @@ help report_checks
 report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
 exit
 ```
+
 
 ### Explore post-CTS OpenROAD timing analysis 
 
@@ -3790,6 +3838,7 @@ set ::env(CTS_CLK_BUFFER_LIST) [linsert $::env(CTS_CLK_BUFFER_LIST) 0 sky130_fd_
 echo $::env(CTS_CLK_BUFFER_LIST)
 ```
 
+
 ### Post-Route OpenSTA timing analysis
 Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrated OpenSTA in OpenROAD
 
@@ -3797,21 +3846,26 @@ Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrat
 
 ```
 openroad
-read_lef /openLANE_flow/designs/picorv32a/runs/26-03_08-45/tmp/merged.lef
-read_def /openLANE_flow/designs/picorv32a/runs/26-03_08-45/results/routing/picorv32a.def
+read_lef /openLANE_flow/designs/picorv32a/runs/13-11_21-58/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/routing/picorv32a.def
 write_db pico_route.db
 read_db pico_route.db
-read_verilog /openLANE_flow/designs/picorv32a/runs/26-03_08-45/results/synthesis/picorv32a.synthesis_preroute.v
+read_verilog /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/synthesis/picorv32a.synthesis_preroute.v
 read_liberty $::env(LIB_SYNTH_COMPLETE)
 link_design picorv32a
 read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
 set_propagated_clock [all_clocks]
-read_spef /openLANE_flow/designs/picorv32a/runs/26-03_08-45/results/routing/picorv32a.spef
+read_spef /openLANE_flow/designs/picorv32a/runs/13-11_21-58/results/routing/picorv32a.spef
 report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
 exit
 ```
 
 -> Screenshots
+
+![image](https://github.com/user-attachments/assets/8a57302a-6897-4abe-9364-71b72c40ae21)
+
+
+![image](https://github.com/user-attachments/assets/64fe68bb-16fc-4904-a727-5ebea9f5f19a)
 
 </details>
 
@@ -3819,15 +3873,46 @@ exit
 
 <summary>Day-5</summary>
 
+### Perform generation of Power Distribution Network (PDN)
+
+
+-> Commands 
+
+```
+run_pdn
+```
+
+![image](https://github.com/user-attachments/assets/bf58cbc7-cb52-4fdd-a584-40f02719f6e5)
+
+![image](https://github.com/user-attachments/assets/014baa3f-52a2-44ac-b8d5-33fc800f417b)
+
+```
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-11_21-58/tmp/floorplan/
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read 14-pdn.def &
+```
+
+![image](https://github.com/user-attachments/assets/b71fc332-3552-45ad-989c-f3fe6877df47)
+
+![image](https://github.com/user-attachments/assets/f469b7c3-f4db-457e-bee0-f191f4086532)
+
+
+
+### Perfrom detailed routing 
+
+-> Commands
+
 ```
 echo $::env(CURRENT_DEF)
 echo $::env(ROUTING_STRATEGY)
 run_routing
 ```
 
-```
-cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/<your_file>/results/routing/
+![image](https://github.com/user-attachments/assets/b7f5bea7-3d53-4f38-a797-ba45227db740)
 
+
+-> Commands
+```
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-11_21-58/results/routing/
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
 
 ```
