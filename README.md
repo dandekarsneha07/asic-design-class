@@ -3179,11 +3179,11 @@ run_synthesis
 ![stat_synth_2](https://github.com/user-attachments/assets/9a050314-d2e7-41a9-a83c-954093a1884a)
 
 
-Calculation of Flop Ratio and DFF % from synthesis statistics report file
+**Calculation of Flop Ratio and DFF % from synthesis statistics report file
 
 Flop Ratio = 1613/14876 = 0.108429685
 
-Percentage of Flip Flops = 0.108429685 ∗ 100 = 10.84296854%
+Percentage of Flip Flops = 0.108429685 ∗ 100 = 10.84296854%**
 
 #### -> TNS and WNS
 
