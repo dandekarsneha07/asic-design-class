@@ -4183,7 +4183,7 @@ make gui_final			//Add DESIGN_CONFIG=./designs/nangate45/gcd/config.mk in the Ma
 <details>
 <summary> rvmyth_core </summary>
 
-## Understanding Physical Design steps and running ASIC flow for rvmyth core
+## Understanding physical design steps and running flow for rvmyth core
 
 #### -> Initial Steps:
 
@@ -6288,7 +6288,7 @@ Total                  8.85e-03   5.88e-03   3.70e-08   1.47e-02 100.0%
 <details>
 <summary> vsdabysoc </summary>
 
-## Understanding Physical Design steps and running ASIC flow for vsdbabysoc
+## Understanding physical design steps and running flow for vsdbabysoc
 
 The Directory structure for configuring vsdbabysoc is same as shown for rvmyth core design.
 
