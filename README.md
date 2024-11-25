@@ -4053,15 +4053,32 @@ exit
 
 ## Installing and Setting up OpenROAD Flow scripts
 
+OpenROAD-flow-scripts (ORFS) is a fully autonomous, RTL-GDSII flow for rapid architecture and design space exploration, early prediction of QoR and detailed physical design implementation. However, ORFS also enables manual intervention for finer user control of individual flow stages through Tcl commands and Python APIs.
+
+The OpenROAD project supports two main flow controllers,
+
+- OpenROAD-flow-scripts(ORFS) is a flow controller that provides a collection of open-source tools for automated digital ASIC design from synthesis to layout. It provides a fully automated RTL-to-GDSII design flow, which includes Synthesis, Placement and Routing (PnR), STA (Static Timing Analysis), DRC (Design Rule Check) and LVS (Layout Versus Schematic) checks. ORFS aims to provide a flexible and customizable environment for digital ASIC design, allowing users to choose and combine different tools as needed.
+
+- In ORFS, OpenROAD is used as a plugin for the physical design stage, and it can be configured and customized to meet the specific needs of the design project. The OpenROAD plugin in ORFS provides access to several advanced features, such as hierarchical placement, global routing, and detailed routing optimization.
+
+- ORFS supports several public and private PDKs (under NDA). Available public PDK's are GF180, Skywater130, ASAP7 etc.
+
+- OpenLane is a complete automated RTL-to-GDSII flow similiar to ORFS and is developed by Efabless for the skywater130 MPW Program
+
+#### -> Clone the following given link
+
 ```ruby
 git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts.git
-cd OpenROAD-flow-scripts
-sudo ./setup.sh
 ```
 
-#### -> build
+![image](https://github.com/user-attachments/assets/2efa9913-2a3d-46ce-99e9-68594251cf1b)
+
+
+#### -> Setup and Build
 
 ```ruby
+cd OpenROAD-flow-scripts
+sudo ./setup.sh
 ./build_openroad.sh --local
 ```
 
@@ -4075,13 +4092,90 @@ cd flow
 make
 ```
 
+![image](https://github.com/user-attachments/assets/02b66133-edce-40c8-a478-ebe5829eb17c)
+
+![image](https://github.com/user-attachments/assets/ae77ac8b-b752-45e3-b6c2-78a0db670d52)
+
+### Understanding the directory structure
+
+```
+├── OpenROAD-flow-scripts             
+│   ├── docker           // It has Docker based installation, run scripts and all saved here
+│   ├── docs             // Documentation for OpenROAD or its flow scripts.  
+│   ├── flow             // Files related to run RTL to GDS flow  
+|   ├── jenkins          // It contains the regression test designed for each build update
+│   ├── tools            // It contains all the required tools to run RTL to GDS flow
+│   ├── etc              // Has the dependency installer script and other things
+│   ├── setup_env.sh     // Its the source file to source all our OpenROAD rules to run the RTL to GDS flow
+```
+
+```
+├── flow           
+│   ├── design           // It has built-in examples from RTL to GDS flow across different technology nodes
+│   ├── Makefile         // The automated flow runs through makefile setup
+│   ├── platform         // It has different technology note libraries, lef files, GDS etc 
+|   ├── tutorials        
+│   ├── util            
+│   ├── scripts 	//Contains all the tcl scripts
+│   ├── logs		// logs dir which contains screen logs of each design and each flow
+│   ├── objects 	// Includes ABC constraints and temp lib files
+│   ├── reports		// reports for each stage of design flow contains timing and DRC rpts
+│   ├── results		// results o=of each stages has .v .sdc .odb .db files
+```
 
 
+### Running Example Design
 
+#### -> Process 
 
+Configuration: Once ORFS is installed, you can configure the framework to meet the specific needs of your design project. This involves specifying the design parameters, such as the target technology node, the design constraints, and the tool settings.
 
+Design entry: You can enter the design into ORFS in different ways, depending on your design entry method. ORFS supports different input formats such as Verilog
 
+Synthesis: The synthesis stage involves transforming the RTL design into a gate-level netlist. ORFS includes several open-source synthesis tools, such as Yosys and ABC, which can be used for this stage.
 
+Floorplanning: In the floorplanning stage, the placement of the different design modules within the chip area is determined. ORFS includes several floorplanning tools, such as RePlAce and Capo, which can be used for this stage.
+
+Placement: The placement stage involves determining the exact location of each gate or cell within the chip area. ORFS includes several placement tools, such as OpenROAD, which can be used for this stage.
+
+Routing: The routing stage involves connecting the gates and cells using metal wires to form a complete circuit. ORFS includes several routing tools, such as FastRoute and TritonRoute, which can be used for this stage.
+
+Layout verification: After the routing stage, the design is verified for layout correctness using tools such as Magic, which is included in ORFS.
+
+GDSII generation: Once the design is verified, the final GDSII layout file is generated using ORFS tools such as Magic and KLayout.
+
+#### -> Commands to run the flow
+
+```
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk synth 		//synthesis
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk floorplan 		//floorplan
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk place 		//placement
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk cts 		//clock tree synthesis
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk route 		//routing the nets
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk final 		//final step
+```
+
+One more option to run the design flow is by adding  ```DESIGN_CONFIG=./designs/nangate45/gcd/config.mk``` in the Makefile and run following commands
+
+```
+make synth 		//synthesis
+make floorplan 		//floorplan
+make all		// for running the entire flow
+```
+
+#### -> Command to view the design in GUI
+
+```
+make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk gui_final 		//to view final design in gui
+						OR
+openroad -gui
+						OR
+make gui_final			//Add DESIGN_CONFIG=./designs/nangate45/gcd/config.mk in the Makefile and run following commands
+```
+
+#### -> GUI 
+
+![image](https://github.com/user-attachments/assets/f81703d0-6b47-40e3-a600-caea2b1e3917)
 
 
 </details>
@@ -4089,7 +4183,136 @@ make
 <details>
 <summary> rvmyth_core </summary>
 
+## Understanding Physical Design steps and running ASIC flow for rvmyth core
 
+#### -> Initial Steps:
+
+- As discussed previously we will configure the design by the following directory structure
+- First we need to create a directory vsdbabysoc inside
+  ```OpenROAD-flow-scripts/flow/designs/sky130hd/<design_name>``` and ```OpenROAD-flow-scripts/flow/designs/src/<design_name>```
+
+```
+├── flow           
+│   ├── design           // It has built-in examples from RTL to GDS flow across different technology nodes
+|	│   ├── sky130hd         // It has different technology note libraries, lef files, GDS etc 
+|	|	|   ├── config.mk        
+|	|	│   ├── constraints.sdc            
+|	│   ├── src 	//Contains all the tcl scripts
+|	|	│   ├── <design_name>		// logs dir which contains screen logs of each design and each flow
+|	|	|	│   ├── <design_files_.v> 	// Includes ABC constraints and temp lib files
+|	|	|	│   ├── lef		// reports for each stage of design flow contains timing and DRC rpts
+|	|	|	│   ├── def		// results o=of each stages has .v .sdc .odb .db files
+|	|	|	│   ├── gds
+|	|	|	│   ├── include
+|	|	|	│   ├── cfg
+```
+
+  
+- Now copy the folders gds, include, lef and lib from the design folder in your system into this directory. - The gds folder would contain the files avsddac.gds and avsdpll.gds - The include folder would contain the files sandpiper.vh, sandpiper_gen.vh, sp_default.vh and sp_verilog.vh - The gds folder would contain the files avsddac.lef and avsdpll.lef - The lib folder would contain the files avsddac.lib and avsdpll.lib as shown above
+- Copy the constraints file(constraints.sdc) from the design folder in your system into this directory.
+- Copy the files(macro.cfg and pin_order.cfg) from the design folder in your system into this directory.
+
+
+## Synthesis
+
+![image](https://github.com/user-attachments/assets/31462b12-a8a9-446f-b410-30180137be1f)
+
+## Floorplan
+
+The primary objectives of floorplanning are to minimize area, timing, wire length, and power consumption while ensuring easy routing and reliability.
+
+-> Running Floorplan
+
+![image](https://github.com/user-attachments/assets/4a46c0ae-63c7-4662-b4a7-d30928b60bc8)
+
+-> VDD nets after power grid generation
+
+![image](https://github.com/user-attachments/assets/af4a284b-fe92-4645-9985-ddb7f2b835e6)
+
+-> VSS nets after power grid generation
+
+![image](https://github.com/user-attachments/assets/2876126f-dc2c-467b-9a71-aedc599d91e1)
+
+## Placement
+
+#### Steps in Placement:
+
+Placement can be divided into several key stages:
+  
+- Pre-Placement: This initial stage involves checks and the placement of physical-only cells (e.g., end-cap cells, well-tap cells) to ensure a clean design environment before standard cell placement begins.
+
+- Global Placement: During this phase, the tool determines approximate locations for each standard cell based on various constraints such as timing, congestion, and power. This step does not enforce design rule checks (DRCs), allowing for overlaps.
+
+- Legalization: After global placement, the tool adjusts the positions of cells to eliminate overlaps and ensure that all cells are in legal locations according to the design rules. This process may involve flipping cells to match power pin requirements.
+
+- High Fanout Net Synthesis (HFNS): This step addresses nets with high fanout by distributing the load across multiple drivers and adding buffers as necessary to meet timing constraints[1][2].
+
+- Post-Placement Optimization: After initial placement, further iterations are conducted to refine the design, focusing on timing, congestion, and power optimizations. This may include techniques like scan-chain reordering and tie cell insertion.
+
+
+
+-> Running Placement
+
+![image](https://github.com/user-attachments/assets/d1fa293e-a5e6-47c0-bdcf-4bb676b58177)
+
+![image](https://github.com/user-attachments/assets/01bcda2f-e7de-477c-9bc5-a21c872d7a62)
+
+-> Placement Density
+
+![image](https://github.com/user-attachments/assets/d65b6a75-cb2b-42c9-a669-343fe6c49936)
+
+-> Resizing
+
+![image](https://github.com/user-attachments/assets/341c9858-6a95-46eb-a13f-04384cd6eaf9)
+
+## CTS
+
+CTS involves connecting the clock signal from the clock port to the clock pins of sequential cells while minimizing insertion delay and balancing skew. The clock network is typically categorized as a high fanout net, which requires special handling due to its significant power consumption
+
+![image](https://github.com/user-attachments/assets/2be044ed-93b9-455f-8f57-2452d841e53e)
+
+-> Clock Tree nets
+
+![image](https://github.com/user-attachments/assets/39913658-1d2e-48cc-8703-904f72c8d180)
+
+-> Clock Tree Connections
+
+![image](https://github.com/user-attachments/assets/b6ad1e2e-5e63-44bd-b30f-0471c60420f3)
+
+## Route
+
+#### Routing Flow
+
+The routing flow consists of four main stages:
+
+Global Routing: Divides the core area into global cells (gcells) and finds the shortest path for each net using algorithms like maze routing and Steiner tree. It assigns nets to specific gcells but does not define actual tracks.
+
+Track Assignment: Assigns actual metal layers to global routes while fixing some design rule violations. However, many DRC, signal integrity, and timing violations still remain.
+
+Detailed Routing: Completes the actual metal and via connections between pins. It fixes all remaining violations through multiple iterations. The block is divided into switch boxes (Sboxes) for routing.
+
+Search and Repair: Performed after the first detailed routing iteration to locate and fix any remaining shorts or spacing violations[2][3].
+
+
+![image](https://github.com/user-attachments/assets/875722ac-119c-4e42-bf9c-39371d159710)
+
+-> Connectivity
+
+![image](https://github.com/user-attachments/assets/e99fd93a-96cc-4e51-883e-cd3351df2196)
+
+## Final
+
+![image](https://github.com/user-attachments/assets/620c36e3-00be-4bd4-867d-5761d1fb509b)
+
+![image](https://github.com/user-attachments/assets/07b0fb9a-0406-4c9e-b8be-2606fa12239a)
+
+-> IR Drop
+
+![image](https://github.com/user-attachments/assets/f0f740a3-dcda-4312-ab54-2ac55b5650b8)
+
+## Final QOR
+
+![image](https://github.com/user-attachments/assets/d0b293ed-1fa8-42a4-bd33-8c1b1a8543f1)
 
 
 </details>
@@ -4097,7 +4320,211 @@ make
 <details>
 <summary> vsdabysoc </summary>
 
+## Synthesis
 
+![image](https://github.com/user-attachments/assets/b1dd8070-896e-4d7b-ac6a-428b470fd2e1)
+
+
+## Floorplan
+
+The primary objectives of floorplanning are to minimize area, timing, wire length, and power consumption while ensuring easy routing and reliability.
+
+Here are the key aspects of floorplanning:
+
+#### Inputs for Floorplanning :
+
+- Gate level netlist (.v)
+- Physical & Logical Libraries. (.lefs & .libs for all standard cell,macros,IO Pads etc.)
+- Synopsys design constraints (.sdc).
+- RC Tech File (TLU+ file) - to determine RC values of interconnect layers/metal layers of technology node used in our design, and hence provide RC values for computation of wire delays.
+- Technology File (.tf).
+- Physical Partitioning information of the design.
+- Floorplanning Parameters like height,width,aspect ratio etc.
+
+#### Outputs of Floorplanning:
+
+- Die/Core Area: The physical description of the ASIC design.
+- IO Pad Information: The placement of I/O pins.
+- Placed Macros Information: The placement of macros.
+- Standard Cell Placement Areas: The areas where standard cells are placed.
+- Power Grid Design: The power distribution plan.
+- Blockages: The defined regions where cells cannot be placed.
+
+#### Floorplan Control Parameters:
+
+- Aspect Ratio: The ratio of the height to the width of the chip, which affects routing resources and congestion.
+- Core Utilization: The percentage of the core area occupied by standard cells, macros, and blockages.
+
+Standard Cell Row: The area where standard cells are placed, divided into rows with varying heights.
+Flylines: Virtual connections between macros and IO pads, helping in logical placement and reducing routing resources.
+Halo (Keep Out Margin): The region around fixed macros where other macros and standard cells cannot be placed.
+
+#### Macro Placement Guidelines
+
+- Grouping of macros as per hierarchy
+- Analysis of  macro to input/output pins connection  
+- Logical depth analysis among macros and macros to Input/Output pin
+- Maximizing the core area
+- Avoid notch formation
+- Channel spacing 
+- Macro abbutment
+- IO pins to macro spacing
+- Halo over macros
+- Routing blockage over macros
+- Partial placement blockage in the macro channels and macro to io pins region
+
+
+![image](https://github.com/user-attachments/assets/aa38aa16-b39f-4f09-b71b-4ed69b61aa67)
+
+![image](https://github.com/user-attachments/assets/286fe366-466d-4e85-be02-3b3aad67733b)
+
+![image](https://github.com/user-attachments/assets/6556ed30-6b7e-4aed-9911-3cb06f3722af)
+
+![image](https://github.com/user-attachments/assets/ad855b7b-9f35-4165-ba42-6550184d8647)
+
+
+## Placement
+
+#### Steps in Placement:
+
+Placement can be divided into several key stages:
+  
+- Pre-Placement: This initial stage involves checks and the placement of physical-only cells (e.g., end-cap cells, well-tap cells) to ensure a clean design environment before standard cell placement begins.
+
+- Global Placement: During this phase, the tool determines approximate locations for each standard cell based on various constraints such as timing, congestion, and power. This step does not enforce design rule checks (DRCs), allowing for overlaps.
+
+- Legalization: After global placement, the tool adjusts the positions of cells to eliminate overlaps and ensure that all cells are in legal locations according to the design rules. This process may involve flipping cells to match power pin requirements.
+
+- High Fanout Net Synthesis (HFNS): This step addresses nets with high fanout by distributing the load across multiple drivers and adding buffers as necessary to meet timing constraints[1][2].
+
+- Post-Placement Optimization: After initial placement, further iterations are conducted to refine the design, focusing on timing, congestion, and power optimizations. This may include techniques like scan-chain reordering and tie cell insertion.
+
+#### Techniques Used in Placement:
+
+Placement can be driven by various priorities, including:
+- Timing-Driven Placement: Prioritizes minimizing signal delays.
+- Congestion-Driven Placement: Focuses on reducing routing congestion.
+- Power-Driven Placement: Aims to minimize power consumption during operation.
+
+#### Challanges in Placement
+
+- Congestion : High density of cells in certain areas can lead to routing failures.
+- Timing Closure : Ensuring all paths meet timing requirements after placement.
+- Power Integrity : Uneven cell distribution can cause localized IR drop.
+
+-> Standard Cell Placed
+![image](https://github.com/user-attachments/assets/f4364f0f-3b7b-4eea-b042-da10d893b3ce)
+
+![image](https://github.com/user-attachments/assets/eb33f4aa-9592-4508-a433-1ea8883cae84)
+
+![image](https://github.com/user-attachments/assets/3a630785-68a3-40e1-8a22-70af7e12e3e4)
+
+-> Resizing
+
+![image](https://github.com/user-attachments/assets/3ff870d7-4061-4945-bf5f-512b111b09d0)
+
+
+## CTS
+
+CTS involves connecting the clock signal from the clock port to the clock pins of sequential cells while minimizing insertion delay and balancing skew. The clock network is typically categorized as a high fanout net, which requires special handling due to its significant power consumption
+
+Several structures of clock tree:
+
+H-Tree Structure: A balanced tree structure that minimizes skew.
+
+X-Tree Structure: Similar to the H-tree but optimized for different geometries.
+
+Geometric Matching Algorithm (GMA): A method for optimizing the layout of the clock tree.
+
+Pi Tree Structure: A structure that balances loads effectively.
+
+Fishbone Structure: A more complex design that can handle varying loads and distances.
+
+#### Inputs for CTS:
+
+- Placement Database (DB): Contains the netlist after placement, including various technology files and specifications.
+- Clock Tree Specification File: Defines the requirements and constraints for the clock tree.
+- Library Files: Include information on clock buffers and inverters used in the design.
+
+#### Outputs of CTS:
+
+- A netlist that reflects the clock tree configuration.
+- Timing reports detailing setup and hold times.
+- Skew and latency reports to assess clock performance.
+
+#### Quality Checks Post-CTS:
+
+- Insertion Delay: Must meet target values.
+- Skew Balancing: Should be within acceptable limits.
+- Signal Integrity: Ensuring minimal crosstalk and other noise effects.
+- Power Consumption: Evaluating the clock tree's power usage to ensure it aligns with design specifications.
+
+-> Clock Nets
+
+![image](https://github.com/user-attachments/assets/a8a20896-a104-4298-80e5-a5d9b147395a)
+
+-> Clock Tree
+
+![image](https://github.com/user-attachments/assets/30f9a7f9-d20e-4d68-b648-146326b3a30d)
+
+
+
+## Route
+
+There are three main types of routing:
+
+- Pre-routing (also known as power routing) which is done during power planning.
+- Clock routing performed while building the clock tree in the clock tree synthesis (CTS) stage.
+- Signal routing done after CTS to connect all signal pins.
+
+#### Routing Flow
+
+The routing flow consists of four main stages:
+
+Global Routing: Divides the core area into global cells (gcells) and finds the shortest path for each net using algorithms like maze routing and Steiner tree. It assigns nets to specific gcells but does not define actual tracks.
+
+Track Assignment: Assigns actual metal layers to global routes while fixing some design rule violations. However, many DRC, signal integrity, and timing violations still remain.
+
+Detailed Routing: Completes the actual metal and via connections between pins. It fixes all remaining violations through multiple iterations. The block is divided into switch boxes (Sboxes) for routing.
+
+Search and Repair: Performed after the first detailed routing iteration to locate and fix any remaining shorts or spacing violations[2][3].
+
+#### Routing Constraints:
+
+Key routing constraints include:
+
+- Design rule constraints related to manufacturing
+- Performance constraints to meet timing
+- Routing density constraints to avoid congestion
+- Constraints on off-grid routing
+- Blocked routing regions
+
+#### Routing Outputs:
+
+The main outputs of routing are:
+
+- Geometric layout of all nets in GDS format
+- SPEF file for parasitics
+- Updated SDC file with routed timing
+
+-> Routed nets
+
+![image](https://github.com/user-attachments/assets/2e63c158-37bb-4050-9b91-366aa5b895cd)
+
+-> max path highlighted
+
+![image](https://github.com/user-attachments/assets/eaaa7f09-624a-4d2a-9ffe-cdb563618bc0)
+
+
+## Final
+
+![image](https://github.com/user-attachments/assets/b43db3fe-f772-44c4-97f5-9ea0ea74a567)
+
+
+
+-> Final QOR
+
+![image](https://github.com/user-attachments/assets/59a53d8a-232c-49c8-adaa-a6f6fe82fc5a)
 
 
 </details>
