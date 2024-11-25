@@ -4059,9 +4059,6 @@ cd OpenROAD-flow-scripts
 sudo ./setup.sh
 ```
 
-![alt text](image-1.png)
-
-
 #### -> build
 
 ```ruby
@@ -4078,9 +4075,9 @@ cd flow
 make
 ```
 
-![alt text](image-2.png)
 
-![alt text](image-3.png)
+
+
 
 
 
