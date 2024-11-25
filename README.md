@@ -6544,11 +6544,10 @@ Placement can be driven by various priorities, including:
 
 -> Resizing
 
-![image](https://github.com/user-attachments/assets/3ff870d7-4061-4945-bf5f-512b111b09d0)
+![image](https://github.com/user-attachments/assets/c44dbf20-d94d-4821-ae85-e9abc65588c3)
+
 
 ```
-
-
 ==========================================================================
 detailed place report_tns
 --------------------------------------------------------------------------
@@ -7790,9 +7789,16 @@ Total                  6.26e-03   4.51e-03   2.15e-08   1.08e-02 100.0%
 
 ![image](https://github.com/user-attachments/assets/b43db3fe-f772-44c4-97f5-9ea0ea74a567)
 
+### Heat Maps 
+
 -> IR Drop
 
 ![image](https://github.com/user-attachments/assets/71ddc629-36e5-4ecc-9dbc-989a7d5e9e9f)
+
+-> Final Routing
+
+![image](https://github.com/user-attachments/assets/e1d8da41-a796-457f-be31-ae7d59dbb60d)
+
 
 -> Final QOR
 
