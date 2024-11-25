@@ -4197,7 +4197,7 @@ make gui_final			//Add DESIGN_CONFIG=./designs/nangate45/gcd/config.mk in the Ma
 |	│   ├── sky130hd         
 |	|	|   ├── config.mk        
 |	|	│   ├── constraints.sdc            
-|	│   ├── src 	//Contains all the tcl scripts
+|	│   ├── src 	
 |	|	│   ├── <design_name>		
 |	|	|	│   ├── <design_files_.v> 	
 |	|	|	│   ├── lef		
