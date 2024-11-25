@@ -1,0 +1,25 @@
+1. Executing Verilog-2005 frontend: /home/sneha/OpenROAD-flow-scripts/flow/designs/src/rvmyth_sne/rvmyth_sne.v
+2. Executing Verilog-2005 frontend: /home/sneha/OpenROAD-flow-scripts/flow/designs/src/rvmyth_sne/include/clk_gate.v
+3. Executing Liberty frontend: ./objects/sky130hd/rvmyth_sne/base/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+4. Executing Liberty frontend: ./objects/sky130hd/rvmyth_sne/base/lib/avsddac.lib
+5. Executing Liberty frontend: ./objects/sky130hd/rvmyth_sne/base/lib/avsdpll.lib
+6. Executing Verilog-2005 frontend: /home/sneha/OpenROAD-flow-scripts/flow/platforms/sky130hd/cells_clkgate_hd.v
+Using ABC speed script.
+Extracting clock period from SDC file: ./results/sky130hd/rvmyth_sne/base/clock_period.txt
+7. Executing HIERARCHY pass (managing design hierarchy).
+8. Executing AST frontend in derive mode using pre-parsed AST for module `\rvmyth_sne'.
+Warning: Replacing memory \CPU_Xreg_value_a5 with list of registers. See /home/sneha/OpenROAD-flow-scripts/flow/designs/src/rvmyth_sne/include/rvmyth_sne_gen.v:713
+Warning: Replacing memory \CPU_Xreg_value_a4 with list of registers. See /home/sneha/OpenROAD-flow-scripts/flow/designs/src/rvmyth_sne/include/rvmyth_sne_gen.v:712
+Warning: Replacing memory \CPU_Dmem_value_a5 with list of registers. See /home/sneha/OpenROAD-flow-scripts/flow/designs/src/rvmyth_sne/include/rvmyth_sne_gen.v:703
+8.1. Analyzing design hierarchy..
+8.2. Executing AST frontend in derive mode using pre-parsed AST for module `\clk_gate'.
+8.3. Analyzing design hierarchy..
+8.4. Analyzing design hierarchy..
+9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Warning: Ignoring module rvmyth_sne because it contains processes (run 'proc' command first).
+10. Executing RTLIL backend.
+Warnings: 4 unique messages, 4 total
+End of script. Logfile hash: 8b7fd5daf1, CPU: user 0.10s system 0.02s, MEM: 41.75 MB peak
+Yosys 0.47 (git sha1 647d61dd9, clang++ 18.1.3 -fPIC -O3)
+Time spent: 73% 4x read_liberty (0 sec), 19% 1x hierarchy (0 sec), ...
+Elapsed time: 0:00.16[h:]min:sec. CPU time: user 0.13 sys 0.02 (99%). Peak memory: 44032KB.
