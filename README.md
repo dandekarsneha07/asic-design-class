@@ -4047,6 +4047,64 @@ exit
 
 <summary>Assignment-13</summary>
 
+<details>
+
+<summary> OpenROAD Installation </summary>
+
+## Installing and Setting up OpenROAD Flow scripts
+
+```ruby
+git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts.git
+cd OpenROAD-flow-scripts
+sudo ./setup.sh
+```
+
+![alt text](image-1.png)
+
+
+#### -> build
+
+```ruby
+./build_openroad.sh --local
+```
+
+#### ->verify
+
+```ruby
+source ./env.sh
+yosys -help
+openroad -help
+cd flow
+make
+```
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+
+
+
+
+
+</details>
+
+<details>
+<summary> rvmyth_core </summary>
+
+
+
+
+</details>
+
+<details>
+<summary> vsdabysoc </summary>
+
+
+
+
+</details>
+
 </details>
 
 <details>
