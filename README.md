@@ -4251,6 +4251,119 @@ export REMOVE_ABC_BUFFERS = 1
 
 ![image](https://github.com/user-attachments/assets/31462b12-a8a9-446f-b410-30180137be1f)
 
+```
+
+24. Printing statistics.
+
+=== rvmyth_sne ===
+
+   Number of wires:               7191
+   Number of wire bits:           7200
+   Number of public wires:        1401
+   Number of public wire bits:    1410
+   Number of ports:                  3
+   Number of port bits:             12
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               7060
+     sky130_fd_sc_hd__a2111o_1       1
+     sky130_fd_sc_hd__a2111oi_0      3
+     sky130_fd_sc_hd__a2111oi_1      1
+     sky130_fd_sc_hd__a2111oi_2      2
+     sky130_fd_sc_hd__a211o_1        8
+     sky130_fd_sc_hd__a211oi_1      19
+     sky130_fd_sc_hd__a211oi_2       2
+     sky130_fd_sc_hd__a21boi_0       7
+     sky130_fd_sc_hd__a21boi_1       2
+     sky130_fd_sc_hd__a21o_1        15
+     sky130_fd_sc_hd__a21oi_1      828
+     sky130_fd_sc_hd__a221o_1        5
+     sky130_fd_sc_hd__a221oi_1      95
+     sky130_fd_sc_hd__a221oi_2       1
+     sky130_fd_sc_hd__a22o_1        85
+     sky130_fd_sc_hd__a22oi_1      499
+     sky130_fd_sc_hd__a22oi_2        3
+     sky130_fd_sc_hd__a2bb2oi_1      1
+     sky130_fd_sc_hd__a311o_1        1
+     sky130_fd_sc_hd__a311oi_1      56
+     sky130_fd_sc_hd__a31o_2         2
+     sky130_fd_sc_hd__a31oi_1       16
+     sky130_fd_sc_hd__a32oi_2        1
+     sky130_fd_sc_hd__a41oi_1        2
+     sky130_fd_sc_hd__and2_0         1
+     sky130_fd_sc_hd__and2_1         5
+     sky130_fd_sc_hd__and3_1        53
+     sky130_fd_sc_hd__and4_1         4
+     sky130_fd_sc_hd__and4bb_4       1
+     sky130_fd_sc_hd__buf_1         50
+     sky130_fd_sc_hd__buf_2         32
+     sky130_fd_sc_hd__buf_4          4
+     sky130_fd_sc_hd__buf_6          1
+     sky130_fd_sc_hd__clkbuf_1     570
+     sky130_fd_sc_hd__clkbuf_2       1
+     sky130_fd_sc_hd__conb_1         1
+     sky130_fd_sc_hd__dfxtp_1     1274
+     sky130_fd_sc_hd__fa_1           3
+     sky130_fd_sc_hd__ha_1         135
+     sky130_fd_sc_hd__inv_1        143
+     sky130_fd_sc_hd__inv_2          2
+     sky130_fd_sc_hd__mux2_2         7
+     sky130_fd_sc_hd__mux2_4         1
+     sky130_fd_sc_hd__mux2i_1       49
+     sky130_fd_sc_hd__mux2i_2        1
+     sky130_fd_sc_hd__nand2_1     1395
+     sky130_fd_sc_hd__nand2b_1      32
+     sky130_fd_sc_hd__nand3_1      315
+     sky130_fd_sc_hd__nand3b_1      35
+     sky130_fd_sc_hd__nand4_1      121
+     sky130_fd_sc_hd__nand4b_1       1
+     sky130_fd_sc_hd__nand4bb_1      1
+     sky130_fd_sc_hd__nor2_1       282
+     sky130_fd_sc_hd__nor2_2         8
+     sky130_fd_sc_hd__nor2b_1       53
+     sky130_fd_sc_hd__nor3_1        56
+     sky130_fd_sc_hd__nor3_2         2
+     sky130_fd_sc_hd__nor3b_1        3
+     sky130_fd_sc_hd__nor4_1        29
+     sky130_fd_sc_hd__nor4b_1        1
+     sky130_fd_sc_hd__o2111a_1       1
+     sky130_fd_sc_hd__o2111ai_1      1
+     sky130_fd_sc_hd__o211a_1        4
+     sky130_fd_sc_hd__o211ai_1      57
+     sky130_fd_sc_hd__o211ai_2       1
+     sky130_fd_sc_hd__o21a_1        23
+     sky130_fd_sc_hd__o21ai_0      266
+     sky130_fd_sc_hd__o21ai_1        4
+     sky130_fd_sc_hd__o21ai_4        1
+     sky130_fd_sc_hd__o21ba_2        3
+     sky130_fd_sc_hd__o21bai_1      22
+     sky130_fd_sc_hd__o221ai_1      81
+     sky130_fd_sc_hd__o22a_1        32
+     sky130_fd_sc_hd__o22ai_1       73
+     sky130_fd_sc_hd__o22ai_2        1
+     sky130_fd_sc_hd__o2bb2ai_1      1
+     sky130_fd_sc_hd__o311ai_0       2
+     sky130_fd_sc_hd__o311ai_1       2
+     sky130_fd_sc_hd__o311ai_2       1
+     sky130_fd_sc_hd__o31a_1         2
+     sky130_fd_sc_hd__o31ai_1       45
+     sky130_fd_sc_hd__o31ai_2        3
+     sky130_fd_sc_hd__o32a_1         2
+     sky130_fd_sc_hd__o32ai_4        1
+     sky130_fd_sc_hd__o41ai_1        5
+     sky130_fd_sc_hd__or2_1          1
+     sky130_fd_sc_hd__or2_2          3
+     sky130_fd_sc_hd__or3_1         26
+     sky130_fd_sc_hd__or4_1          4
+     sky130_fd_sc_hd__xnor2_1       57
+     sky130_fd_sc_hd__xor2_1         8
+
+   Chip area for module '\rvmyth_sne': 57111.024000
+     of which used for sequential elements: 25504.460800 (44.66%)
+
+```
+
 ## Floorplan
 
 The primary objectives of floorplanning are to minimize area, timing, wire length, and power consumption while ensuring easy routing and reliability.
@@ -6228,7 +6341,111 @@ avsddac 200 0 N
 
 ![image](https://github.com/user-attachments/assets/b1dd8070-896e-4d7b-ac6a-428b470fd2e1)
 
+```
 
+24. Printing statistics.
+
+=== vsdbabysoc ===
+
+   Number of wires:               7221
+   Number of wire bits:           7221
+   Number of public wires:        1416
+   Number of public wire bits:    1416
+   Number of ports:                  7
+   Number of port bits:              7
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               7077
+     avsddac                         1
+     avsdpll                         1
+     sky130_fd_sc_hd__a2111oi_0     15
+     sky130_fd_sc_hd__a2111oi_1      1
+     sky130_fd_sc_hd__a2111oi_2      2
+     sky130_fd_sc_hd__a211oi_1      20
+     sky130_fd_sc_hd__a211oi_2       3
+     sky130_fd_sc_hd__a21bo_2        1
+     sky130_fd_sc_hd__a21boi_0       8
+     sky130_fd_sc_hd__a21boi_2       1
+     sky130_fd_sc_hd__a21o_1        30
+     sky130_fd_sc_hd__a21oi_1      814
+     sky130_fd_sc_hd__a221o_1        3
+     sky130_fd_sc_hd__a221oi_1     101
+     sky130_fd_sc_hd__a22o_1        95
+     sky130_fd_sc_hd__a22oi_1      517
+     sky130_fd_sc_hd__a311oi_1      41
+     sky130_fd_sc_hd__a311oi_2       9
+     sky130_fd_sc_hd__a31o_2         2
+     sky130_fd_sc_hd__a31oi_1       18
+     sky130_fd_sc_hd__a31oi_2        1
+     sky130_fd_sc_hd__a32o_1         2
+     sky130_fd_sc_hd__a41oi_1        2
+     sky130_fd_sc_hd__and2_0         1
+     sky130_fd_sc_hd__and2_1        12
+     sky130_fd_sc_hd__and3_1        24
+     sky130_fd_sc_hd__and3b_1        2
+     sky130_fd_sc_hd__and4_1         2
+     sky130_fd_sc_hd__buf_1         49
+     sky130_fd_sc_hd__buf_2         10
+     sky130_fd_sc_hd__buf_6          2
+     sky130_fd_sc_hd__clkbuf_1     599
+     sky130_fd_sc_hd__clkbuf_2       2
+     sky130_fd_sc_hd__conb_1         1
+     sky130_fd_sc_hd__dfxtp_1     1274
+     sky130_fd_sc_hd__fa_1           3
+     sky130_fd_sc_hd__ha_1         135
+     sky130_fd_sc_hd__inv_1        110
+     sky130_fd_sc_hd__mux2_2         2
+     sky130_fd_sc_hd__mux2i_1       27
+     sky130_fd_sc_hd__nand2_1     1407
+     sky130_fd_sc_hd__nand2b_1      30
+     sky130_fd_sc_hd__nand3_1      333
+     sky130_fd_sc_hd__nand3b_1      38
+     sky130_fd_sc_hd__nand4_1      120
+     sky130_fd_sc_hd__nor2_1       319
+     sky130_fd_sc_hd__nor2b_1       55
+     sky130_fd_sc_hd__nor3_1        69
+     sky130_fd_sc_hd__nor3b_1        7
+     sky130_fd_sc_hd__nor4_1        34
+     sky130_fd_sc_hd__nor4b_1        2
+     sky130_fd_sc_hd__nor4bb_1       1
+     sky130_fd_sc_hd__o2111a_1       2
+     sky130_fd_sc_hd__o2111ai_1      3
+     sky130_fd_sc_hd__o211a_1        3
+     sky130_fd_sc_hd__o211ai_1      36
+     sky130_fd_sc_hd__o211ai_2       1
+     sky130_fd_sc_hd__o21a_1         5
+     sky130_fd_sc_hd__o21ai_0      354
+     sky130_fd_sc_hd__o21ai_1        9
+     sky130_fd_sc_hd__o21ba_2        1
+     sky130_fd_sc_hd__o21bai_1      25
+     sky130_fd_sc_hd__o221a_2        1
+     sky130_fd_sc_hd__o221ai_1      33
+     sky130_fd_sc_hd__o22a_1        36
+     sky130_fd_sc_hd__o22ai_1       73
+     sky130_fd_sc_hd__o2bb2ai_1      1
+     sky130_fd_sc_hd__o311a_1        2
+     sky130_fd_sc_hd__o311ai_0       3
+     sky130_fd_sc_hd__o311ai_1       3
+     sky130_fd_sc_hd__o311ai_4       2
+     sky130_fd_sc_hd__o31a_1         2
+     sky130_fd_sc_hd__o31ai_1       34
+     sky130_fd_sc_hd__o31ai_2        1
+     sky130_fd_sc_hd__o32ai_1        1
+     sky130_fd_sc_hd__or2_2         10
+     sky130_fd_sc_hd__or3_1         20
+     sky130_fd_sc_hd__or4_1         10
+     sky130_fd_sc_hd__or4_4          2
+     sky130_fd_sc_hd__xnor2_1       39
+     sky130_fd_sc_hd__xor2_1         7
+
+   Area for cell type \avsddac is unknown!
+   Area for cell type \avsdpll is unknown!
+
+   Chip area for module '\vsdbabysoc': 56739.417600
+     of which used for sequential elements: 25504.460800 (44.95%)
+
+```
 ## Floorplan
 
 The primary objectives of floorplanning are to minimize area, timing, wire length, and power consumption while ensuring easy routing and reliability.
@@ -6752,7 +6969,8 @@ Fishbone Structure: A more complex design that can handle varying loads and dist
 
 -> Clock Tree
 
-![image](https://github.com/user-attachments/assets/30f9a7f9-d20e-4d68-b648-146326b3a30d)
+![image](https://github.com/user-attachments/assets/9373c0d5-2f18-4141-bd11-862e691eeb03)
+
 
 ```
 
@@ -7572,8 +7790,7 @@ Total                  6.26e-03   4.51e-03   2.15e-08   1.08e-02 100.0%
 
 -> IR Drop
 
-![image](https://github.com/user-attachments/assets/baa0120e-9ab8-4742-ba20-1bf54a1a6923)
-
+![image](https://github.com/user-attachments/assets/71ddc629-36e5-4ecc-9dbc-989a7d5e9e9f)
 
 -> Final QOR
 
