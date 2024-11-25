@@ -7845,6 +7845,14 @@ Total                  6.26e-03   4.51e-03   2.15e-08   1.08e-02 100.0%
 
 ![image](https://github.com/user-attachments/assets/e1d8da41-a796-457f-be31-ae7d59dbb60d)
 
+-> Placement Density
+
+![image](https://github.com/user-attachments/assets/28fd25e1-8136-4b26-88e2-9cda8b93f0fb)
+
+-> Estimated Congestion
+
+![image](https://github.com/user-attachments/assets/ab5e76c7-dc0e-4041-9cfb-36ffa69b527e)
+
 
 -> Final QOR
 
