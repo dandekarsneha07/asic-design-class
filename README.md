@@ -4193,15 +4193,15 @@ make gui_final			//Add DESIGN_CONFIG=./designs/nangate45/gcd/config.mk in the Ma
 
 ```
 ├── flow           
-│   ├── design           // It has built-in examples from RTL to GDS flow across different technology nodes
-|	│   ├── sky130hd         // It has different technology note libraries, lef files, GDS etc 
+│   ├── design          
+|	│   ├── sky130hd         
 |	|	|   ├── config.mk        
 |	|	│   ├── constraints.sdc            
 |	│   ├── src 	//Contains all the tcl scripts
-|	|	│   ├── <design_name>		// logs dir which contains screen logs of each design and each flow
-|	|	|	│   ├── <design_files_.v> 	// Includes ABC constraints and temp lib files
-|	|	|	│   ├── lef		// reports for each stage of design flow contains timing and DRC rpts
-|	|	|	│   ├── def		// results o=of each stages has .v .sdc .odb .db files
+|	|	│   ├── <design_name>		
+|	|	|	│   ├── <design_files_.v> 	
+|	|	|	│   ├── lef		
+|	|	|	│   ├── def		
 |	|	|	│   ├── gds
 |	|	|	│   ├── include
 |	|	|	│   ├── cfg
